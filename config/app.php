@@ -39,7 +39,7 @@ return [
     'App' => [
         'namespace' => 'App',
         'encoding' => env('APP_ENCODING', 'UTF-8'),
-        'defaultLocale' => env('APP_DEFAULT_LOCALE', 'en_US'),
+        'defaultLocale' => env('APP_DEFAULT_LOCALE', 'pt_BR'),
         'base' => false,
         'dir' => 'src',
         'webroot' => 'webroot',
@@ -64,7 +64,7 @@ return [
      *   You should treat it as extremely sensitive data.
      */
     'Security' => [
-        'salt' => env('SECURITY_SALT', '519081116ecd1d101d98866c0a644adb47161a09488eccf09b0b8f06d01f641d'),
+        'salt' => env('SECURITY_SALT', 'v31gn4dtyu34ng9tmy23dng6972m37g4mt8d62s23d4mg8942mts28dmbd92umb'),
     ],
 
     /**
@@ -229,9 +229,9 @@ return [
              * the following line and set the port accordingly
              */
             //'port' => 'non_standard_port_number',
-            'username' => 'my_app',
-            'password' => 'secret',
-            'database' => 'my_app',
+            'username' => 'root',
+            'password' => '',
+            'database' => 'projetoPessoal',
             'encoding' => 'utf8',
             'timezone' => 'UTC',
             'flags' => [],

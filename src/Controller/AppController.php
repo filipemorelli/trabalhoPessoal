@@ -28,6 +28,8 @@ use Cake\Event\Event;
 class AppController extends Controller
 {
 
+    public $helpers = array('MinifyHtml');
+
     /**
      * Initialization hook method.
      *
@@ -43,6 +45,25 @@ class AppController extends Controller
 
         $this->loadComponent('RequestHandler');
         $this->loadComponent('Flash');
+        $this->loadComponent('Auth', [
+            'loginRedirect' => [
+                'controller' => 'Users',
+                'action' => 'index'
+            ],
+            'logoutRedirect' => [
+                'controller' => 'Users',
+                'action' => 'login'
+            ],
+            'authenticate' => [
+                'Form' => [
+                    'scope' => ['Users.ativo' => '1'],
+                    'fields' => [
+                        'username' => 'email',
+                        'password' => 'senha'
+                    ],
+                ],
+            ]
+        ]);
 
         /*
          * Enable the following components for recommended CakePHP security settings.

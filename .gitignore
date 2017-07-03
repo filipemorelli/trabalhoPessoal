@@ -13,6 +13,9 @@
 !/tmp/sessions/empty
 /tmp/tests/*
 !/tmp/tests/empty
+/tmp/bake/*
+/tmp/debug_kit.sqlite
+!/tmp/bake/empty
 
 /logs/*
 !/logs/empty
