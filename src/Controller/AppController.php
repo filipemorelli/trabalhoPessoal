@@ -44,6 +44,8 @@ class AppController extends Controller
         parent::initialize();
 
         $this->loadComponent('RequestHandler');
+        $this->loadComponent('Minify');
+        $this->loadComponent('phpQuery');
         $this->loadComponent('Flash');
         $this->loadComponent('Auth', [
             'loginRedirect' => [
