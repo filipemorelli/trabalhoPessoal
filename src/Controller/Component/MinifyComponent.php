@@ -3,7 +3,6 @@
 namespace App\Controller\Component;
 
 use Cake\Controller\Component;
-define('X', "\x1A"); // a placeholder character
 $SS = '"(?:[^"\\\]++|\\\.)*+"|\'(?:[^\'\\\\]++|\\\.)*+\'';
 $CC = '\/\*[\s\S]*?\*\/';
 $CH = '<\!--[\s\S]*?-->';

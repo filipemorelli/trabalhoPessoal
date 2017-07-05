@@ -27,4 +27,16 @@ class SitesController extends AppController
         echo '<textarea>' . $minifyContent . '</textarea>';
         exit();
     }
+
+    /**
+     * Copia site
+     *
+     * @return \Cake\Http\Response|void
+     */
+    public function siteCopy()
+    {
+        $url = 'http://localhost/teste-crawl/';
+        $this->phpCrawl->copySite($url);
+        exit();
+    }
 }

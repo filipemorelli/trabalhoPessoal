@@ -17,6 +17,7 @@ namespace App\Controller;
 use Cake\Controller\Controller;
 use Cake\Event\Event;
 
+define('X', "\x1A"); // a placeholder character
 /**
  * Application Controller
  *
@@ -45,6 +46,7 @@ class AppController extends Controller
 
         $this->loadComponent('RequestHandler');
         $this->loadComponent('Minify');
+        $this->loadComponent('phpCrawl');
         $this->loadComponent('phpQuery');
         $this->loadComponent('Flash');
         $this->loadComponent('Auth', [
