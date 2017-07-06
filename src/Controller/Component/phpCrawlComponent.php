@@ -34,14 +34,21 @@ class phpCrawlComponent extends Component
         $crawler->setCompleteUrl($url);
 
         $crawler->setURL($url); 
-        $crawler->addContentTypeReceiveRule("#text/html#");
+        //$crawler->addContentTypeReceiveRule("#text/html#");
         if(!is_null($urlRule))
         {
             $crawler->addURLFilterRule("#$url#");
         } 
         $crawler->go();
-        echo '<pre>';
-        var_dump($crawler->getAllLink());
-        echo 'oi';
+        $paginasSite = $crawler->getAllLink();
+        foreach ($paginasSite as $key => $value) {
+            $link = str_replace('https://', '', str_replace('http://', '', $value['url_link']));
+            if($link == "" || substr($link, -1) == "/"){
+                $link .= 'index.htm';
+            }
+            $file = new File(TMP . $link, true, 0755);
+            $file->write($value['content']);
+            $file->close();
+        }
     }
 }
