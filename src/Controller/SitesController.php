@@ -36,7 +36,7 @@ class SitesController extends AppController
     public function siteCopy()
     {
         $url = 'http://localhost/teste-crawl/';
-        $this->phpCrawl->copySite($url);
+        $this->phpCrawl->copySite($url, null, 'Localhost');
         exit();
     }
 }
