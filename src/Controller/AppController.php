@@ -49,7 +49,6 @@ class AppController extends Controller
         $this->loadComponent('phpCrawl');
         $this->loadComponent('phpQuery');
         $this->loadComponent('Flash');
-        $this->loadComponent('Zip');
         $this->loadComponent('Auth', [
             'loginRedirect' => [
                 'controller' => 'Users',
