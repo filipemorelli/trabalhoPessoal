@@ -11,21 +11,38 @@ use App\Controller\AppController;
  */
 class SitesController extends AppController
 {
-    
+
     /**
-     * Pega Descricao do site template
+     * Copia site
      *
      * @return \Cake\Http\Response|void
      */
-    public function siteDescricao()
+    public function index()
     {
-        $url = 'http://bhtecnologia.com/projeto-freejobs/';
-        $queryRule = 'body #vantagens';
+        if($this->request->is(["post", "put"]))
+        {
+            $url            = $this->request->data['Url'];
+            $queryRule      = $this->request->data['Query'];
+            $descricaoHtml  = $this->siteDescricao($url, $queryRule);
+            $this->set("descricaoHtml", $descricaoHtml);
+        }
+    }
+
+    /**
+     * Pega Descricao do site template
+     *
+     * @params $url [Parametro de url]
+     * @params $queryRule [PHPQuery/Jquery para pegar somente o que interessa do site]
+     *
+     * @return \Cake\Http\Response|void
+     */
+    private function siteDescricao($url, $queryRule = null)
+    {
+        //$url = 'http://bhtecnologia.com/projeto-freejobs/';
+        //$queryRule = 'body #vantagens';
         $content = $this->phpQuery->getDescription($url, $queryRule);
         $minifyContent = $this->Minify->start($content);
-        echo '<pre>';
-        echo '<textarea>' . $minifyContent . '</textarea>';
-        exit();
+        return $minifyContent;
     }
 
     /**
