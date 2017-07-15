@@ -25,7 +25,7 @@
         <?php
             if(isset($descricaoHtml))
             {
-                echo $this->Form->control('Descricao Site', ['type' => 'textarea', 'default' => $descricaoHtml]);
+                echo $this->Form->control('Descricao Site', ['type' => 'textarea', 'rows' => '10', 'default' => $descricaoHtml]);
                 //echo '<textarea>' . $descricaoHtml . '</textarea>';
             }
         ?>
