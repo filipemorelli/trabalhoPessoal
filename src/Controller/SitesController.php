@@ -19,6 +19,7 @@ class SitesController extends AppController
      */
     public function index()
     {
+        $this->set("title", "Sites - Pega Descricao");
         if($this->request->is(["post", "put"]))
         {
             $url            = $this->request->data['Url'];

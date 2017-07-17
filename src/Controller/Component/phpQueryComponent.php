@@ -8,7 +8,7 @@ use phpQuery;
 class phpQueryComponent extends Component
 {
 
-    public function getDescription($url = null, $queryRule)
+    public function getDescription($url = null, $queryRule = '')
     {
         if (!is_null($url))
         {

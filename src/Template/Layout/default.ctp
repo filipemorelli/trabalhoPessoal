@@ -21,8 +21,7 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
     <?= $this->Html->charset() ?>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>
-        <?= $cakeDescription ?>:
-        <?= $this->fetch('title') ?>
+        <?= isset($title) ? $title : 'Trabalho'  ?>
     </title>
     <?= $this->Html->meta('icon') ?>
 
@@ -37,13 +36,12 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
     <nav class="top-bar expanded" data-topbar role="navigation">
         <ul class="title-area large-3 medium-4 columns">
             <li class="name">
-                <h1><a href=""><?= $this->fetch('title') ?></a></h1>
+                <h1><a href=""><?= isset($title) ? $title : 'Trabalho'  ?></a></h1>
             </li>
         </ul>
         <div class="top-bar-section">
             <ul class="right">
-                <li><?= $this->Html->link('Descricao do site', ['controller' => 'sites', 'action' => 'siteDescricao']) ?></li>
-                <li><?= $this->Html->link('Copiar Site', ['controller' => 'sites', 'action' => 'siteCopy']) ?></li>
+                <li><?= $this->Html->link('Descricao do site', ['controller' => 'sites', 'action' => 'index'], ['target' => '_blank']) ?></li>
                 <li><a target="_blank" href="https://book.cakephp.org/3.0/">Documentation</a></li>
                 <li><a target="_blank" href="https://api.cakephp.org/3.0/">API</a></li>
             </ul>

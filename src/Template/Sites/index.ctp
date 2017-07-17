@@ -15,7 +15,7 @@
         <legend><?= __('Sites') ?></legend>
         <?php
             echo $this->Form->control('Url', ['type' => 'url', 'required' => true]);
-            echo $this->Form->control('Query');
+            echo $this->Form->control('Query', ['title' => 'Busca jQuery', 'label' => 'Busca jQuery (#main-content .secao-comprar)']);
         ?>
         <?= $this->Form->button(__('Submit')) ?>
     </fieldset>
@@ -26,7 +26,6 @@
             if(isset($descricaoHtml))
             {
                 echo $this->Form->control('Descricao Site', ['type' => 'textarea', 'rows' => '10', 'default' => $descricaoHtml]);
-                //echo '<textarea>' . $descricaoHtml . '</textarea>';
             }
         ?>
     </fieldset>
