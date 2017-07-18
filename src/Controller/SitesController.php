@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controller;
 
 use App\Controller\AppController;
@@ -20,13 +21,37 @@ class SitesController extends AppController
     public function index()
     {
         $this->set("title", "Sites - Pega Descricao");
-        if($this->request->is(["post", "put"]))
+        if ($this->request->is(["post", "put"]))
         {
-            $url            = $this->request->data['Url'];
-            $queryRule      = $this->request->data['Query'];
-            $descricaoHtml  = $this->siteDescricao($url, $queryRule);
-            $this->set("descricaoHtml", $descricaoHtml);
+            $url = $this->request->data['Url'];
+            $queryTitulo = $this->request->data['QueryTitulo'];
+            $queryDescricaoRapida = $this->request->data['QueryDescricaoRapida'];
+            $queryDescricaoCompleta = $this->request->data['QueryDescricaoCompleta'];
+
+            $contents = $this->siteDescricaoCompleta($url, $queryTitulo, $queryDescricaoRapida, $queryDescricaoCompleta);
+
+            $this->set("titulo", $contents['titulo']);
+            $this->set("descricaoRapida", $contents['descricaoRapida']);
+            $this->set("descricaoCompleta", $contents['descricaoCompleta']);
+            $this->set("isPost", 1);
         }
+    }
+
+    /**
+     * Pega Descricao do site template
+     *
+     * @params $url [Parametro de url]
+     * @params $queryRule [PHPQuery/Jquery para pegar somente o que interessa do site]
+     *
+     * @return array ['titulo', 'descricaoRapida', 'descricaoCompleta']
+     */
+    private function siteDescricaoCompleta($url, $queryTitulo = null, $queryDescricaoRapida = null, $queryDescricaoCompleta = null)
+    {
+        //$url = 'http://bhtecnologia.com/projeto-freejobs/';
+        //$queryRule = 'body #vantagens';
+        $contents = $this->phpQuery->getDescriptionFull($url, $queryTitulo, $queryDescricaoRapida, $queryDescricaoCompleta);
+        $contents['descricaoCompleta'] = $this->Minify->start($contents['descricaoCompleta']);
+        return $contents;
     }
 
     /**
@@ -57,4 +82,5 @@ class SitesController extends AppController
         $this->phpCrawl->copySite($url, null, 'Localhost');
         exit();
     }
+
 }

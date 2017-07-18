@@ -15,7 +15,9 @@
         <legend><?= __('Sites') ?></legend>
         <?php
             echo $this->Form->control('Url', ['type' => 'url', 'required' => true]);
-            echo $this->Form->control('Query', ['title' => 'Busca jQuery', 'label' => 'Busca jQuery (#main-content .secao-comprar)']);
+            echo $this->Form->control('QueryTitulo', ['title' => 'Busca jQuery', 'label' => 'Titulo (#main-content .secao-comprar)']);
+            echo $this->Form->control('QueryDescricaoRapida', ['title' => 'Busca jQuery', 'label' => 'Descricao Rapida (#main-content .secao-comprar)']);
+            echo $this->Form->control('QueryDescricaoCompleta', ['title' => 'Busca jQuery', 'label' => 'Descricao Completa (#main-content .secao-comprar)']);
         ?>
         <?= $this->Form->button(__('Submit')) ?>
     </fieldset>
@@ -23,9 +25,11 @@
 
     <fieldset>
         <?php
-            if(isset($descricaoHtml))
+            if($isPost)
             {
-                echo $this->Form->control('Descricao Site', ['type' => 'textarea', 'rows' => '10', 'default' => $descricaoHtml]);
+                echo $this->Form->control('Titulo', ['type' => 'text', 'rows' => '10', 'default' => $titulo]);
+                echo $this->Form->control('Descricao rapida', ['type' => 'textarea', 'rows' => '10', 'default' => $descricaoRapida]);
+                echo $this->Form->control('Descricao Completa', ['type' => 'textarea', 'rows' => '10', 'default' => $descricaoCompleta]);
             }
         ?>
     </fieldset>
