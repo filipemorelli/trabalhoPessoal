@@ -26,6 +26,17 @@
             if(isset($descricaoHtml))
             {
                 echo $this->Form->control('Descricao Site', ['type' => 'textarea', 'rows' => '10', 'default' => $descricaoHtml]);
+        ?>
+            <script>
+                var textarea = document.getElementById('descricao-site');
+                textarea.focus(); // focus
+                textarea.select(); //seleciona o texto
+                //tenta copiar para o clipboar porem isso somente funciona para botao
+                if(document.execCommand("copy")){
+                    document.write('<p>Copiado para o clipboard!</p>');
+                }
+            </script>
+        <?php
             }
         ?>
     </fieldset>
