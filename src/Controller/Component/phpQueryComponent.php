@@ -52,11 +52,11 @@ class phpQueryComponent extends Component
             
             
             $descricaoCompleta = $doc[$queryDescricaoCompleta];
-            $descricaoRapida->find('a')->removeAttr('href')->removeAttr('rel')->wrap('<div/>')->contentsUnwrap();
+            $descricaoCompleta->find('a')->removeAttr('href')->removeAttr('rel')->wrap('<div/>')->contentsUnwrap();
             //remove scripts
-            $descricaoRapida->find('script')->remove();
+            $descricaoCompleta->find('script')->remove();
             //remove pixels google leads
-            $descricaoRapida->find('img[src*="googleads"]')->remove();
+            $descricaoCompleta->find('img[src*="googleads"]')->remove();
             
             return array(
                 'titulo' => trim(pq($titulo)->text()),

@@ -28,7 +28,14 @@
             if($isPost)
             {
                 echo $this->Form->control('Titulo', ['type' => 'text', 'rows' => '10', 'default' => $titulo]);
-                echo $this->Form->control('Descricao rapida', ['type' => 'textarea', 'rows' => '10', 'default' => $descricaoRapida]);
+                echo $this->Form->control('Descricao rapida', ['type' => 'textarea', 'rows' => '10', 'default' => $this->Text->truncate(
+                    $descricaoRapida,
+                    300,
+                    [
+                        'ellipsis' => '...',
+                        'exact' => false
+                    ]
+                ) . " <a href=\"#group-description\" title=\"Read More about $titulo\">Read More</a>"]);
                 echo $this->Form->control('Descricao Completa', ['type' => 'textarea', 'rows' => '10', 'default' => $descricaoCompleta]);
         ?>
             <script>
