@@ -37,7 +37,7 @@ class phpQueryComponent extends Component
             $doc = phpQuery::newDocumentFile($url);
             $titulo = $doc[$queryTitulo];
             //remove links e transforma eles em divs
-            $titulo->find('a')->removeAttr('href')->removeAttr('rel')->wrap('<div class="text-center"/>')->contentsUnwrap();
+            $titulo->find('a')->removeAttr('href')->removeAttr('rel')->wrap('<div/>')->contentsUnwrap();
             //remove scripts
             $titulo->find('script')->remove();
             //remove pixels google leads

@@ -30,6 +30,17 @@
                 echo $this->Form->control('Titulo', ['type' => 'text', 'rows' => '10', 'default' => $titulo]);
                 echo $this->Form->control('Descricao rapida', ['type' => 'textarea', 'rows' => '10', 'default' => $descricaoRapida]);
                 echo $this->Form->control('Descricao Completa', ['type' => 'textarea', 'rows' => '10', 'default' => $descricaoCompleta]);
+        ?>
+            <script>
+                var textarea = document.getElementById('titulo');
+                textarea.focus(); // focus
+                textarea.select(); //seleciona o texto
+                //tenta copiar para o clipboar porem isso somente funciona para botao
+                if(document.execCommand("copy")){
+                    document.write('<p>Copiado para o clipboard!</p>');
+                }
+            </script>
+        <?php
             }
         ?>
     </fieldset>
