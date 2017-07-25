@@ -53,7 +53,7 @@ class phpQueryComponent extends Component
         return false;
     }
 
-    public function getMercadoLivreContent($url = null, $queryTitulo = null, $queryDescricaoRapida = null, $queryDescricaoCompleta = null)
+    public function getMercadoLivreContent($url = null, $queryTitulo = null, $queryDescricaoRapida = null, $queryDescricaoCompleta = null, $queryImagem = null)
     {
         if (!is_null($url))
         {
