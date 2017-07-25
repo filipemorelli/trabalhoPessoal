@@ -42,6 +42,7 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
         <div class="top-bar-section">
             <ul class="right">
                 <li><?= $this->Html->link('Descricao do site', ['controller' => 'sites', 'action' => 'index'], ['target' => '_blank']) ?></li>
+                <li><?= $this->Html->link('Mercado Livre', ['controller' => 'sites', 'action' => 'mercadoLivre'], ['target' => '_blank']) ?></li>
                 <li><a target="_blank" href="https://book.cakephp.org/3.0/">Documentation</a></li>
                 <li><a target="_blank" href="https://api.cakephp.org/3.0/">API</a></li>
                 <li><?= $this->Html->link('Sair', ['controller' => 'users', 'action' => 'logout']) ?></li>

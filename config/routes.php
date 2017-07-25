@@ -53,6 +53,7 @@ Router::scope('/', function (RouteBuilder $routes) {
     $routes->connect('/login', ['controller' => 'Users', 'action' => 'login']);
     $routes->connect('/site-descricao', ['controller' => 'Sites', 'action' => 'siteDescricao']);
     $routes->connect('/copiar-site', ['controller' => 'Sites', 'action' => 'siteCopy']);
+    $routes->connect('/mercadolivre', ['controller' => 'Sites', 'action' => 'mercadoLivre']);
     /**
      * ...and connect the rest of 'Pages' controller's URLs.
      */

@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\Utility\Text;
+use App\Controller\Component\TradutorComponent;
 
 /**
  * Sites Controller
@@ -36,6 +38,34 @@ class SitesController extends AppController
             $this->set("isPost", 1);
         }
     }
+    
+    /**
+     * 
+     */
+    public function mercadoLivre()
+    {
+        
+        $this->set("title", "Mercado Livre - Pega Descricao");
+        if ($this->request->is(["post", "put"]))
+        {
+            $url = $this->request->data['Url'];
+            $queryTitulo = $this->request->data['QueryTitulo'];
+            $queryDescricaoRapida = $this->request->data['QueryDescricaoRapida'];
+            $queryDescricaoCompleta = $this->request->data['QueryDescricaoCompleta'];
+
+            $contents = $this->siteDescricaoMercadoLivre($url, $queryTitulo, $queryDescricaoRapida, $queryDescricaoCompleta);
+            
+            $titulo = $contents['titulo'];
+            $descricaoRapida = Text::truncate($contents['descricaoRapida'], 300, ['ellipsis' => '...','exact' => false]);
+            $descricaoCompleta = $contents['descricaoCompleta'];
+
+            
+            $this->set("titulo", $titulo);
+            $this->set("descricaoRapida", $descricaoRapida);
+            $this->set("descricaoCompleta", $descricaoCompleta);
+            $this->set("isPost", 1);
+        }
+    }
 
     /**
      * Pega Descricao do site template
@@ -54,6 +84,23 @@ class SitesController extends AppController
         return $contents;
     }
 
+    /**
+     * Pega Descricao do site template
+     *
+     * @params $url [Parametro de url]
+     * @params $queryRule [PHPQuery/Jquery para pegar somente o que interessa do site]
+     *
+     * @return array ['titulo', 'descricaoRapida', 'descricaoCompleta']
+     */
+    private function siteDescricaoMercadoLivre($url, $queryTitulo = null, $queryDescricaoRapida = null, $queryDescricaoCompleta = null)
+    {
+        //$url = 'http://bhtecnologia.com/projeto-freejobs/';
+        //$queryRule = 'body #vantagens';
+        $contents = $this->phpQuery->getMercadoLivreContent($url, $queryTitulo, $queryDescricaoRapida, $queryDescricaoCompleta);
+        $contents['descricaoCompleta'] = $this->Minify->start($contents['descricaoCompleta']);
+        return $contents;
+    }
+    
     /**
      * Pega Descricao do site template
      *
