@@ -46,6 +46,7 @@ class SitesController extends AppController
     {
         
         $this->set("title", "Mercado Livre - Pega Descricao");
+        $this->set("isPost", false);
         if ($this->request->is(["post", "put"]))
         {
             $url = $this->request->data['Url'];
@@ -97,7 +98,6 @@ class SitesController extends AppController
         //$url = 'http://bhtecnologia.com/projeto-freejobs/';
         //$queryRule = 'body #vantagens';
         $contents = $this->phpQuery->getMercadoLivreContent($url, $queryTitulo, $queryDescricaoRapida, $queryDescricaoCompleta);
-        $contents['descricaoCompleta'] = $this->Minify->start($contents['descricaoCompleta']);
         return $contents;
     }
     
