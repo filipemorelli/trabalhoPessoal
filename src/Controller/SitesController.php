@@ -3,8 +3,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
-use Cake\Utility\Text;
-use App\Controller\Component\TradutorComponent;
+use Cake\ORM\TableRegistry;
 
 /**
  * Sites Controller
@@ -38,13 +37,13 @@ class SitesController extends AppController
             $this->set("isPost", 1);
         }
     }
-    
+
     /**
      * 
      */
     public function mercadoLivre()
     {
-        
+
         $this->set("title", "Mercado Livre - Pega Descricao");
         $this->set("isPost", false);
         if ($this->request->is(["post", "put"]))
@@ -56,18 +55,29 @@ class SitesController extends AppController
             $queryImagem = $this->request->data['QueryImagem'];
 
             $contents = $this->siteDescricaoMercadoLivre($url, $queryTitulo, $queryDescricaoRapida, $queryDescricaoCompleta, $queryImagem);
-            
-            $titulo = $contents['titulo'];
-            $descricaoRapida = Text::truncate($contents['descricaoRapida'], 300, ['ellipsis' => '...','exact' => false]);
-            $descricaoCompleta = $contents['descricaoCompleta'];
-            
-            $this->loadModel('');
 
+            $titulo = $contents['titulo'];
+            $descricaoRapida = $contents['descricaoRapida'];
+            $descricaoCompleta = $contents['descricaoCompleta'];
+
+            $produtosMercadoLivreTable = TableRegistry::get('ProdutosMercado');
+            $produto = $produtosMercadoLivreTable->newEntity();
+            $produto->title = $titulo;
+            $produto->link = $url;
+            $produto->content = $descricaoCompleta;
+            $produto->excerpt = $descricaoRapida;
+            $produto->price = $this->request->data['price'];
+            $produto->ml_category = $this->request->data['ml_category'];
+            $produto->link_produto = $this->request->data['link_produto'];
+            $produto->link_download_produto = $this->request->data['link_download_produto'];
             
-            $this->set("titulo", $titulo);
-            $this->set("descricaoRapida", $descricaoRapida);
-            $this->set("descricaoCompleta", $descricaoCompleta);
-            $this->set("isPost", 1);
+            if ($produtosMercadoLivreTable->save($produto))
+            {
+                $this->Flash->success(__('The produtos mercado has been saved.'));
+            } else
+            {
+                $this->Flash->error(__('The produtos mercado has been saved.'));
+            }
         }
     }
 
@@ -103,7 +113,7 @@ class SitesController extends AppController
         $contents = $this->phpQuery->getMercadoLivreContent($url, $queryTitulo, $queryDescricaoRapida, $queryDescricaoCompleta, $queryImagem);
         return $contents;
     }
-    
+
     /**
      * Pega Descricao do site template
      *

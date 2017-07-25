@@ -3,7 +3,7 @@
 namespace App\Controller\Component;
 
 use Cake\Controller\Component;
-use App\Controller\Component\TradutorComponent;
+use Cake\Utility\Text;
 use phpQuery;
 
 class phpQueryComponent extends Component
@@ -64,13 +64,17 @@ class phpQueryComponent extends Component
             //traduzir
             $titulo = $this->cleanHtmlMercadoLivreContent($doc[$queryTitulo]);
             $descricaoRapida = $this->cleanHtmlMercadoLivreContent($doc[$queryDescricaoRapida]);
+            $descricaoRapidaTruncate = Text::truncate($descricaoRapida->text(), 300, ['ellipsis' => '...', 'exact' => false]);
+            $descricaoRapidaTraduzida = $this->Tradutor->begin(trim($descricaoRapidaTruncate));        
+     
             $descricaoCompleta = $this->cleanHtmlMercadoLivreContent($doc[$queryDescricaoCompleta]);
-
             $decricaoCompletaMinificada = $this->Minify->start(trim($descricaoCompleta->html()));
+            $descricaoCompletaTraduzida = $this->Tradutor->begin($decricaoCompletaMinificada);
+            $descricaoCompletaTraduzidaImagemDestaque = pq($descricaoCompletaTraduzida)->prepend('<div style="text-align: center">'.$doc[$queryImagem]->html().'</div>');
             return array(
                 'titulo' => trim(pq($titulo)->text()),
-                'descricaoRapida' => $this->Tradutor->begin(trim(pq($descricaoRapida)->text())),
-                'descricaoCompleta' => $this->Tradutor->begin($decricaoCompletaMinificada)
+                'descricaoRapida' => $descricaoRapidaTraduzida,
+                'descricaoCompleta' => $this->Minify->start($descricaoCompletaTraduzidaImagemDestaque)
             );
         }
         //throw new NotFoundException(__('Imposivel Sem URL')); 

@@ -15,40 +15,17 @@
         <legend><?= __('Sites') ?></legend>
         <?php
             echo $this->Form->control('Url', ['type' => 'url', 'required' => true]);
-            echo $this->Form->control('QueryTitulo', ['title' => 'Busca jQuery', 'label' => 'Titulo (#main-content .secao-comprar)']);
-            echo $this->Form->control('QueryDescricaoRapida', ['title' => 'Busca jQuery', 'label' => 'Descricao Rapida (#main-content .secao-comprar)']);
-            echo $this->Form->control('QueryDescricaoCompleta', ['title' => 'Busca jQuery', 'label' => 'Descricao Completa (#main-content .secao-comprar)']);
+            echo $this->Form->control('QueryTitulo', ['title' => 'Busca jQuery', 'label' => 'Titulo (#main-content .secao-comprar)','required' => true]);
+            echo $this->Form->control('QueryDescricaoRapida', ['title' => 'Busca jQuery', 'label' => 'Descricao Rapida (#main-content .secao-comprar)','required' => true]);
+            echo $this->Form->control('QueryDescricaoCompleta', ['title' => 'Busca jQuery', 'label' => 'Descricao Completa (#main-content .secao-comprar)','required' => true]);
+            echo $this->Form->control('QueryImagem', ['title' => 'Busca jQuery', 'label' => 'Query Imagem','required' => true]);
+            echo $this->Form->control('price', ['type' => 'number', 'label' => 'Preço produto para vender', 'default' => '5.00','required' => true]);
+            echo $this->Form->control('ml_category', ['type' => 'text', 'label' => 'ID Categoria produto* (mercadolivre)', 'default' => 'MLB9595','required' => true]);
+            echo $this->Form->control('link_produto', ['type' => 'url', 'label' => 'Link url produto']);
+            echo $this->Form->control('link_download_produto', ['type' => 'url', 'label' => 'Link do download do produto','required' => true]);
         ?>
         <?= $this->Form->button(__('Submit')) ?>
     </fieldset>
     <?= $this->Form->end() ?>
 
-    <fieldset>
-        <?php
-            if($isPost)
-            {
-                echo $this->Form->control('Titulo', ['type' => 'text', 'rows' => '10', 'default' => $titulo]);
-                echo $this->Form->control('Descricao rapida', ['type' => 'textarea', 'rows' => '10', 'default' => $this->Text->truncate(
-                    $descricaoRapida,
-                    300,
-                    [
-                        'ellipsis' => '...',
-                        'exact' => false
-                    ]
-                ) . " <a href=\"#group-description\" title=\"Read More about $titulo\">Read More</a>"]);
-                echo $this->Form->control('Descricao Completa', ['type' => 'textarea', 'rows' => '10', 'default' => $descricaoCompleta]);
-        ?>
-            <script>
-                var textarea = document.getElementById('titulo');
-                textarea.focus(); // focus
-                textarea.select(); //seleciona o texto
-                //tenta copiar para o clipboar porem isso somente funciona para botao
-                if(document.execCommand("copy")){
-                    document.write('<p>Copiado para o clipboard!</p>');
-                }
-            </script>
-        <?php
-            }
-        ?>
-    </fieldset>
 </div>
