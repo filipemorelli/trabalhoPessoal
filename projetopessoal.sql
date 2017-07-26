@@ -48,6 +48,21 @@ INSERT INTO `users` (`id`, `nome`, `senha`, `email`, `tipo`, `created`, `modifie
 -- Indexes for dumped tables
 --
 
+-- Copiando estrutura para tabela projetoPessoal.produtos_mercado
+CREATE TABLE IF NOT EXISTS `produtos_mercado` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `title` varchar(60) NOT NULL,
+  `pubDate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `link` text NOT NULL,
+  `content` text NOT NULL,
+  `excerpt` varchar(300) NOT NULL,
+  `price` decimal(10,2) NOT NULL DEFAULT '5.00',
+  `ml_category` varchar(50) NOT NULL DEFAULT 'MLB9595' COMMENT '_ml_category_id',
+  `link_produto` text NOT NULL,
+  `link_download_produto` text NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Produtos do mercado livre';
+
 --
 -- Indexes for table `users`
 --
