@@ -2,6 +2,8 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\View\View;
+use Cake\I18n\Time;
 
 /**
  * ProdutosMercado Controller
@@ -107,5 +109,31 @@ class ProdutosMercadoController extends AppController
         }
 
         return $this->redirect(['action' => 'index']);
+    }
+    
+    public function export()
+    {
+        $query = $this->ProdutosMercado->find('all',[]);
+        $produtos = $query->all();
+        $view = new View();
+        echo '<pre>';
+        foreach ($produtos as $produto)
+        {
+            $time = new Time($produto->pubDate);
+            $content = $view->element('wordpress/mercadolivre_item');
+            $content = str_replace('{{id}}', $produto->id, $content);
+            $content = str_replace('{{title}}', $produto->title, $content);
+            $content = str_replace('{{pubDate}}', $time->format('D, d M Y H:i:s'), $content);
+            $content = str_replace('{{post_date}}', $time->format('Y-m-d H:i:s'), $content);
+            $content = str_replace('{{content}}', $produto->content, $content);
+            $content = str_replace('{{excerpt}}', $produto->excerpt, $content);
+            $content = str_replace('{{price}}', $produto->price, $content);
+            $content = str_replace('{{categoria_id}}', $produto->ml_category, $content);
+            $content = str_replace('{{slug}}', strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $produto->title))), $content);
+            var_dump(htmlspecialchars($content));
+            exit();
+            
+        }
+        exit();
     }
 }
