@@ -59,6 +59,7 @@ class SitesController extends AppController
             $titulo            = $contents['titulo'];
             $descricaoRapida   = $contents['descricaoRapida'];
             $descricaoCompleta = $contents['descricaoCompleta'];
+            $urlImagem         = $contents['urlImagem'];
 
             $produtosMercadoLivreTable      = TableRegistry::get('ProdutosMercado');
             $produto                        = $produtosMercadoLivreTable->newEntity();
@@ -68,7 +69,7 @@ class SitesController extends AppController
             $produto->excerpt               = $descricaoRapida;
             $produto->price                 = $this->request->data['price'];
             $produto->ml_category           = $this->request->data['ml_category'];
-            $produto->link_produto          = $this->request->data['link_produto'];
+            $produto->urlImagem             = $urlImagem;
             $produto->link_download_produto = $this->request->data['link_download_produto'];
 
             if ($produtosMercadoLivreTable->save($produto))

@@ -143,6 +143,7 @@ class ProdutosMercadoController extends AppController
             $content = str_replace('{{content}}', $produto->content, $content);
             $content = str_replace('{{excerpt}}', $produto->excerpt, $content);
             $content = str_replace('{{price}}', $produto->price, $content);
+            $content = str_replace('{{urlImagem}}', $produto->urlImagem, $content);
             $content = str_replace('{{categoria_id}}', $produto->ml_category, $content);
             $content = str_replace('{{slug}}', strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $produto->title))), $content);
             $file->append($content);
