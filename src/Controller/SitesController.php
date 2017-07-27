@@ -24,9 +24,9 @@ class SitesController extends AppController
         $this->set("title", "Sites - Pega Descricao");
         if ($this->request->is(["post", "put"]))
         {
-            $url = $this->request->data['Url'];
-            $queryTitulo = $this->request->data['QueryTitulo'];
-            $queryDescricaoRapida = $this->request->data['QueryDescricaoRapida'];
+            $url                    = $this->request->data['Url'];
+            $queryTitulo            = $this->request->data['QueryTitulo'];
+            $queryDescricaoRapida   = $this->request->data['QueryDescricaoRapida'];
             $queryDescricaoCompleta = $this->request->data['QueryDescricaoCompleta'];
 
             $contents = $this->siteDescricaoCompleta($url, $queryTitulo, $queryDescricaoRapida, $queryDescricaoCompleta);
@@ -48,33 +48,34 @@ class SitesController extends AppController
         $this->set("isPost", false);
         if ($this->request->is(["post", "put"]))
         {
-            $url = $this->request->data['Url'];
-            $queryTitulo = $this->request->data['QueryTitulo'];
-            $queryDescricaoRapida = $this->request->data['QueryDescricaoRapida'];
+            $url                    = $this->request->data['Url'];
+            $queryTitulo            = $this->request->data['QueryTitulo'];
+            $queryDescricaoRapida   = $this->request->data['QueryDescricaoRapida'];
             $queryDescricaoCompleta = $this->request->data['QueryDescricaoCompleta'];
-            $queryImagem = $this->request->data['QueryImagem'];
+            $queryImagem            = $this->request->data['QueryImagem'];
 
             $contents = $this->siteDescricaoMercadoLivre($url, $queryTitulo, $queryDescricaoRapida, $queryDescricaoCompleta, $queryImagem);
 
-            $titulo = $contents['titulo'];
-            $descricaoRapida = $contents['descricaoRapida'];
+            $titulo            = $contents['titulo'];
+            $descricaoRapida   = $contents['descricaoRapida'];
             $descricaoCompleta = $contents['descricaoCompleta'];
 
-            $produtosMercadoLivreTable = TableRegistry::get('ProdutosMercado');
-            $produto = $produtosMercadoLivreTable->newEntity();
-            $produto->title = $titulo;
-            $produto->link = $url;
-            $produto->content = $descricaoCompleta;
-            $produto->excerpt = $descricaoRapida;
-            $produto->price = $this->request->data['price'];
-            $produto->ml_category = $this->request->data['ml_category'];
-            $produto->link_produto = $this->request->data['link_produto'];
+            $produtosMercadoLivreTable      = TableRegistry::get('ProdutosMercado');
+            $produto                        = $produtosMercadoLivreTable->newEntity();
+            $produto->title                 = $titulo;
+            $produto->link                  = $url;
+            $produto->content               = $descricaoCompleta;
+            $produto->excerpt               = $descricaoRapida;
+            $produto->price                 = $this->request->data['price'];
+            $produto->ml_category           = $this->request->data['ml_category'];
+            $produto->link_produto          = $this->request->data['link_produto'];
             $produto->link_download_produto = $this->request->data['link_download_produto'];
-            
+
             if ($produtosMercadoLivreTable->save($produto))
             {
                 $this->Flash->success(__('The produtos mercado has been saved.'));
-            } else
+            }
+            else
             {
                 $this->Flash->error(__('The produtos mercado has been saved.'));
             }
@@ -93,7 +94,7 @@ class SitesController extends AppController
     {
         //$url = 'http://bhtecnologia.com/projeto-freejobs/';
         //$queryRule = 'body #vantagens';
-        $contents = $this->phpQuery->getDescriptionFull($url, $queryTitulo, $queryDescricaoRapida, $queryDescricaoCompleta);
+        $contents                      = $this->phpQuery->getDescriptionFull($url, $queryTitulo, $queryDescricaoRapida, $queryDescricaoCompleta);
         $contents['descricaoCompleta'] = $this->Minify->start($contents['descricaoCompleta']);
         return $contents;
     }
@@ -126,7 +127,7 @@ class SitesController extends AppController
     {
         //$url = 'http://bhtecnologia.com/projeto-freejobs/';
         //$queryRule = 'body #vantagens';
-        $content = $this->phpQuery->getDescription($url, $queryRule);
+        $content       = $this->phpQuery->getDescription($url, $queryRule);
         $minifyContent = $this->Minify->start($content);
         return $minifyContent;
     }

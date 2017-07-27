@@ -17,7 +17,7 @@ class phpQueryComponent extends Component
         {
             //$url = 'http://www.phonearena.com/phones/manufacturer/';
             include dirname(__FILE__) . '/phpQuery/phpQuery.php';
-            $doc = phpQuery::newDocumentFile($url);
+            $doc      = phpQuery::newDocumentFile($url);
             $document = $doc[$queryRule];
             //remove links e transforma eles em divs
             $document->find('a')->removeAttr('href')->removeAttr('rel')->wrap('<div/>')->contentsUnwrap();
@@ -38,14 +38,14 @@ class phpQueryComponent extends Component
             //$url = 'http://www.phonearena.com/phones/manufacturer/';
             include dirname(__FILE__) . '/phpQuery/phpQuery.php';
             $doc = phpQuery::newDocumentFile($url);
-            
-            $titulo = $this->cleanHtmlDescriptionFull($doc[$queryTitulo]);
-            $descricaoRapida = $this->cleanHtmlDescriptionFull($doc[$queryDescricaoRapida]);
+
+            $titulo            = $this->cleanHtmlDescriptionFull($doc[$queryTitulo]);
+            $descricaoRapida   = $this->cleanHtmlDescriptionFull($doc[$queryDescricaoRapida]);
             $descricaoCompleta = $this->cleanHtmlDescriptionFull($doc[$queryDescricaoCompleta]);
 
             return array(
-                'titulo' => trim(pq($titulo)->text()),
-                'descricaoRapida' => trim(pq($descricaoRapida)->text()),
+                'titulo'            => trim(pq($titulo)->text()),
+                'descricaoRapida'   => trim(pq($descricaoRapida)->text()),
                 'descricaoCompleta' => trim(pq($descricaoCompleta)->html())
             );
         }
@@ -62,18 +62,18 @@ class phpQueryComponent extends Component
             $doc = phpQuery::newDocumentFile($url);
 
             //traduzir
-            $titulo = $this->cleanHtmlMercadoLivreContent($doc[$queryTitulo]);
-            $descricaoRapida = $this->cleanHtmlMercadoLivreContent($doc[$queryDescricaoRapida]);
-            $descricaoRapidaTruncate = Text::truncate($descricaoRapida->text(), 300, ['ellipsis' => '...', 'exact' => false]);
-            $descricaoRapidaTraduzida = $this->Tradutor->begin(trim($descricaoRapidaTruncate));        
-     
-            $descricaoCompleta = $this->cleanHtmlMercadoLivreContent($doc[$queryDescricaoCompleta]);
-            $decricaoCompletaMinificada = $this->Minify->start(trim($descricaoCompleta->html()));
-            $descricaoCompletaTraduzida = $this->Tradutor->begin($decricaoCompletaMinificada);
-            $descricaoCompletaTraduzidaImagemDestaque = '<div style="text-align: center">'.$doc[$queryImagem]->html().'</div>' . $descricaoCompletaTraduzida;
+            $titulo                   = $this->cleanHtmlMercadoLivreContent($doc[$queryTitulo]);
+            $descricaoRapida          = $this->cleanHtmlMercadoLivreContent($doc[$queryDescricaoRapida]);
+            $descricaoRapidaTruncate  = Text::truncate($descricaoRapida->text(), 300, ['ellipsis' => '...', 'exact' => false]);
+            $descricaoRapidaTraduzida = $this->Tradutor->begin(trim($descricaoRapidaTruncate));
+
+            $descricaoCompleta                        = $this->cleanHtmlMercadoLivreContent($doc[$queryDescricaoCompleta]);
+            $decricaoCompletaMinificada               = $this->Minify->start(trim($descricaoCompleta->html()));
+            $descricaoCompletaTraduzida               = $this->Tradutor->begin($decricaoCompletaMinificada);
+            $descricaoCompletaTraduzidaImagemDestaque = '<div style="text-align: center">' . $doc[$queryImagem]->html() . '</div>' . $descricaoCompletaTraduzida;
             return array(
-                'titulo' => trim(pq($titulo)->text()),
-                'descricaoRapida' => $descricaoRapidaTraduzida,
+                'titulo'            => trim(pq($titulo)->text()),
+                'descricaoRapida'   => $descricaoRapidaTraduzida,
                 'descricaoCompleta' => $this->Minify->start($descricaoCompletaTraduzidaImagemDestaque)
             );
         }

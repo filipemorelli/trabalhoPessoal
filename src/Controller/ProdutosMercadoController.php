@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controller;
 
 use App\Controller\AppController;
@@ -53,9 +54,11 @@ class ProdutosMercadoController extends AppController
     public function add()
     {
         $produtosMercado = $this->ProdutosMercado->newEntity();
-        if ($this->request->is('post')) {
+        if ($this->request->is('post'))
+        {
             $produtosMercado = $this->ProdutosMercado->patchEntity($produtosMercado, $this->request->getData());
-            if ($this->ProdutosMercado->save($produtosMercado)) {
+            if ($this->ProdutosMercado->save($produtosMercado))
+            {
                 $this->Flash->success(__('The produtos mercado has been saved.'));
 
                 return $this->redirect(['action' => 'index']);
@@ -78,9 +81,11 @@ class ProdutosMercadoController extends AppController
         $produtosMercado = $this->ProdutosMercado->get($id, [
             'contain' => []
         ]);
-        if ($this->request->is(['patch', 'post', 'put'])) {
+        if ($this->request->is(['patch', 'post', 'put']))
+        {
             $produtosMercado = $this->ProdutosMercado->patchEntity($produtosMercado, $this->request->getData());
-            if ($this->ProdutosMercado->save($produtosMercado)) {
+            if ($this->ProdutosMercado->save($produtosMercado))
+            {
                 $this->Flash->success(__('The produtos mercado has been saved.'));
 
                 return $this->redirect(['action' => 'index']);
@@ -102,24 +107,27 @@ class ProdutosMercadoController extends AppController
     {
         $this->request->allowMethod(['post', 'delete']);
         $produtosMercado = $this->ProdutosMercado->get($id);
-        if ($this->ProdutosMercado->delete($produtosMercado)) {
+        if ($this->ProdutosMercado->delete($produtosMercado))
+        {
             $this->Flash->success(__('The produtos mercado has been deleted.'));
-        } else {
+        }
+        else
+        {
             $this->Flash->error(__('The produtos mercado could not be deleted. Please, try again.'));
         }
 
         return $this->redirect(['action' => 'index']);
     }
-    
+
     public function export()
     {
-        $query = $this->ProdutosMercado->find('all',[]);
+        $query    = $this->ProdutosMercado->find('all', []);
         $produtos = $query->all();
-        $view = new View();
+        $view     = new View();
         echo '<pre>';
         foreach ($produtos as $produto)
         {
-            $time = new Time($produto->pubDate);
+            $time    = new Time($produto->pubDate);
             $content = $view->element('wordpress/mercadolivre_item');
             $content = str_replace('{{id}}', $produto->id, $content);
             $content = str_replace('{{title}}', $produto->title, $content);
@@ -132,8 +140,8 @@ class ProdutosMercadoController extends AppController
             $content = str_replace('{{slug}}', strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $produto->title))), $content);
             var_dump(htmlspecialchars($content));
             exit();
-            
         }
         exit();
     }
+
 }

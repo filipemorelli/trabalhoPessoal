@@ -13,14 +13,14 @@ class TradutorComponent extends Component
 
     public function begin($message, $format = 'html', $lang = 'en-pt')
     {
-        $c = new Client();
+        $c             = new Client();
         $textTranslate = $c->post($this->url, [
-            'key' => $this->key,
-            'text' => $message,
+            'key'    => $this->key,
+            'text'   => $message,
             'format' => $format,
-            'lang' => $lang
+            'lang'   => $lang
         ]);
-        $result = json_decode($textTranslate->body());
+        $result        = json_decode($textTranslate->body());
         if ($result->code == 200)
         {
             return $result->text[0];
