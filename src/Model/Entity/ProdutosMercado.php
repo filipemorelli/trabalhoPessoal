@@ -14,7 +14,7 @@ use Cake\ORM\Entity;
  * @property string $excerpt
  * @property float $price
  * @property string $ml_category
- * @property string $link_produto
+ * @property string $urlImagem
  * @property string $link_download_produto
  */
 class ProdutosMercado extends Entity

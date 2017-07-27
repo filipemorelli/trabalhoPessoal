@@ -67,14 +67,14 @@ class phpQueryComponent extends Component
             $descricaoRapidaTruncate  = Text::truncate($descricaoRapida->text(), 300, ['ellipsis' => '...', 'exact' => false]);
             $descricaoRapidaTraduzida = $this->Tradutor->begin(trim($descricaoRapidaTruncate));
 
-            $descricaoCompleta                        = $this->cleanHtmlMercadoLivreContent($doc[$queryDescricaoCompleta]);
-            $decricaoCompletaMinificada               = $this->Minify->start(trim($descricaoCompleta->html()));
-            $descricaoCompletaTraduzida               = $this->Tradutor->begin($decricaoCompletaMinificada);
-            $descricaoCompletaTraduzidaImagemDestaque = '<div style="text-align: center">' . $doc[$queryImagem]->html() . '</div>' . $descricaoCompletaTraduzida;
+            $descricaoCompleta          = $this->cleanHtmlMercadoLivreContent($doc[$queryDescricaoCompleta]);
+            $decricaoCompletaMinificada = $this->Minify->start(trim($descricaoCompleta->html()));
+            $descricaoCompletaTraduzida = $this->Tradutor->begin($decricaoCompletaMinificada);
             return array(
                 'titulo'            => trim(pq($titulo)->text()),
                 'descricaoRapida'   => $descricaoRapidaTraduzida,
-                'descricaoCompleta' => $this->Minify->start($descricaoCompletaTraduzidaImagemDestaque)
+                'descricaoCompleta' => $this->Minify->start($descricaoCompletaTraduzida),
+                'urlImagem'         => $doc[$queryImagem]->attr('src')
             );
         }
         //throw new NotFoundException(__('Imposivel Sem URL')); 

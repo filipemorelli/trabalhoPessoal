@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Controller\AppController;
 use Cake\View\View;
 use Cake\I18n\Time;
+use Cake\Filesystem\File;
 
 /**
  * ProdutosMercado Controller
@@ -121,10 +122,16 @@ class ProdutosMercadoController extends AppController
 
     public function export()
     {
-        $query    = $this->ProdutosMercado->find('all', []);
-        $produtos = $query->all();
-        $view     = new View();
-        echo '<pre>';
+        $query           = $this->ProdutosMercado->find('all', []);
+        $produtos        = $query->all();
+        $view            = new View();
+        $path            = TMP . 'export-mercadolive-' . date('Y-m-d_H-i-s') . 'xml';
+        $headerWordpress = $view->element('wordpress/mercadolivre_header');
+        $file            = new File($path, true, '0755');
+        $file->open('w');
+        $file->append('<?xml version="1.0" encoding="UTF-8" ?>');
+        $file->append($headerWordpress);
+
         foreach ($produtos as $produto)
         {
             $time    = new Time($produto->pubDate);
@@ -138,10 +145,12 @@ class ProdutosMercadoController extends AppController
             $content = str_replace('{{price}}', $produto->price, $content);
             $content = str_replace('{{categoria_id}}', $produto->ml_category, $content);
             $content = str_replace('{{slug}}', strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $produto->title))), $content);
-            var_dump(htmlspecialchars($content));
-            exit();
+            $file->append($content);
         }
-        exit();
+        $footerWordpress = $view->element('wordpress/mercadolivre_footer');
+        $file->append($footerWordpress);
+        $file->close();
+        // $file->delete();
     }
 
 }

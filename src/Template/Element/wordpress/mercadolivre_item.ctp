@@ -13,7 +13,7 @@
     <wp:comment_status>open</wp:comment_status>
     <wp:ping_status>closed</wp:ping_status>
     <wp:post_name>{{slug}}</wp:post_name>
-    <wp:status>publish</wp:status>
+    <wp:status>draft</wp:status>
     <wp:post_parent>0</wp:post_parent>
     <wp:menu_order>0</wp:menu_order>
     <wp:post_type>product</wp:post_type>
@@ -178,7 +178,7 @@
     </wp:postmeta>
     <wp:postmeta>
         <wp:meta_key>_ml_stop_time</wp:meta_key>
-        <wp:meta_value><![CDATA]]></wp:meta_value>
+        <wp:meta_value><![CDATA[]]></wp:meta_value>
     </wp:postmeta>
     <wp:postmeta>
         <wp:meta_key>_ml_end_time</wp:meta_key>
@@ -215,5 +215,17 @@
     <wp:postmeta>
         <wp:meta_key>_ml_shipping_mode</wp:meta_key>
         <wp:meta_value><![CDATA[not_specified]]></wp:meta_value>
+    </wp:postmeta>
+    <wp:postmeta>
+        <wp:meta_key>fifu_image_url</wp:meta_key>
+        <wp:meta_value><![CDATA[{{urlImagem}}]]></wp:meta_value>
+    </wp:postmeta>
+    <wp:postmeta>
+        <wp:meta_key>fifu_image_alt</wp:meta_key>
+        <wp:meta_value><![CDATA[{{title}}]]></wp:meta_value>
+    </wp:postmeta>
+    <wp:postmeta>
+        <wp:meta_key>_thumbnail_id</wp:meta_key>
+        <wp:meta_value><![CDATA[-1]]></wp:meta_value>
     </wp:postmeta>
 </item>

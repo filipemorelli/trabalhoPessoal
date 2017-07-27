@@ -46,7 +46,6 @@ class AppController extends Controller
 
         $this->loadComponent('RequestHandler');
         $this->loadComponent('Minify');
-        $this->loadComponent('phpCrawl');
         $this->loadComponent('phpQuery');
         $this->loadComponent('Flash');
         $this->loadComponent('Auth', [

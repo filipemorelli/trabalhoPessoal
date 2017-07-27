@@ -77,8 +77,8 @@ class ProdutosMercadoTable extends Table
             ->notEmpty('ml_category');
 
         $validator
-            ->requirePresence('link_produto', 'create')
-            ->notEmpty('link_produto');
+            ->requirePresence('urlImagem', 'create')
+            ->notEmpty('urlImagem');
 
         $validator
             ->requirePresence('link_download_produto', 'create')
