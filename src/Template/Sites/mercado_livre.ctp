@@ -19,7 +19,7 @@
             echo $this->Form->control('QueryDescricaoRapida', ['title' => 'Busca jQuery', 'label' => 'Descricao Rapida (#main-content .secao-comprar)','required' => true]);
             echo $this->Form->control('QueryDescricaoCompleta', ['title' => 'Busca jQuery', 'label' => 'Descricao Completa (#main-content .secao-comprar)','required' => true]);
             echo $this->Form->control('QueryImagem', ['title' => 'Busca jQuery', 'label' => 'Query Imagem','required' => true]);
-            echo $this->Form->control('price', ['type' => 'number', 'label' => 'Preço produto para vender', 'default' => '5.00','required' => true]);
+            echo $this->Form->control('price', ['type' => 'number', 'label' => 'Preço produto para vender', 'default' => '5.00','required' => true, 'step' => '0.01']);
             echo $this->Form->control('ml_category', ['type' => 'text', 'label' => 'ID Categoria produto* (mercadolivre)', 'default' => 'MLB9595','required' => true]);
             echo $this->Form->control('link_produto', ['type' => 'url', 'label' => 'Link url produto']);
             echo $this->Form->control('link_download_produto', ['type' => 'url', 'label' => 'Link do download do produto','required' => true]);
