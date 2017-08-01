@@ -125,7 +125,7 @@ class ProdutosMercadoController extends AppController
         $query           = $this->ProdutosMercado->find('all', []);
         $produtos        = $query->all();
         $view            = new View();
-        $path            = TMP . 'export-mercadolive-' . date('Y-m-d_H-i-s') . 'xml';
+        $path            = TMP . 'export-mercadolive-' . date('Y-m-d_H-i-s') . '.xml';
         $headerWordpress = $view->element('wordpress/mercadolivre_header');
         $file            = new File($path, true, '0755');
         $file->open('w');
@@ -151,6 +151,13 @@ class ProdutosMercadoController extends AppController
         $footerWordpress = $view->element('wordpress/mercadolivre_footer');
         $file->append($footerWordpress);
         $file->close();
+        header('Content-Type: application/xml');
+        header('Content-Length: ' . $file->size());
+        header('Content-Disposition: attachment; filename=' . $file->name);
+        header('Pragma: no-cache');
+        readfile($file->path);
+        flush();
+        $file->delete();
         // $file->delete();
     }
 
