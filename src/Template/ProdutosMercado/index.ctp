@@ -34,8 +34,8 @@
                 <td><?= $this->Number->format($produtosMercado->price) ?></td>
                 <td><?= h($produtosMercado->ml_category) ?></td>
                 <td class="actions">
-                    <?= $this->Html->link(__('View'), ['action' => 'view', $produtosMercado->id]) ?>
-                    <?= $this->Html->link(__('Edit'), ['action' => 'edit', $produtosMercado->id]) ?>
+                    <?= $this->Html->link(__('View'), ['action' => 'view', $produtosMercado->id]) ?>&nbsp;|
+                    <?= $this->Html->link(__('Edit'), ['action' => 'edit', $produtosMercado->id]) ?>&nbsp;|
                     <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $produtosMercado->id], ['confirm' => __('Are you sure you want to delete # {0}?', $produtosMercado->id)]) ?>
                 </td>
             </tr>
