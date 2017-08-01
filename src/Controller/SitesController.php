@@ -74,11 +74,11 @@ class SitesController extends AppController
 
             if ($produtosMercadoLivreTable->save($produto))
             {
-                $this->Flash->success(__('The produtos mercado has been saved.'));
+                $this->Flash->success(__('The produtos mercado has been saved. ' . date('Y-m-d H:i:s')));
             }
             else
             {
-                $this->Flash->error(__('The produtos mercado has been saved.'));
+                $this->Flash->error(__('The produtos mercado has not been saved.' . date('Y-m-d H:i:s')));
             }
         }
     }
