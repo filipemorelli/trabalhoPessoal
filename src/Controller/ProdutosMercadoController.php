@@ -158,6 +158,7 @@ class ProdutosMercadoController extends AppController
         readfile($file->path);
         flush();
         $file->delete();
+        exit();
         // $file->delete();
     }
 
