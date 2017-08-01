@@ -28,7 +28,7 @@ class TradutorComponent extends Component
         else
         {
             debug($result);
-            throw new Exception("Traducao nao foi feita");
+            exit();
         }
         return false;
     }
