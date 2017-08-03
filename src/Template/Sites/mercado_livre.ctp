@@ -16,7 +16,6 @@
         <?php
             echo $this->Form->control('Url', ['type' => 'url', 'required' => true]);
             echo $this->Form->control('QueryTitulo', ['title' => 'Busca jQuery', 'label' => 'Titulo (#main-content .secao-comprar)','required' => true]);
-            echo $this->Form->control('QueryDescricaoRapida', ['title' => 'Busca jQuery', 'label' => 'Descricao Rapida (#main-content .secao-comprar)','required' => true]);
             echo $this->Form->control('QueryDescricaoCompleta', ['title' => 'Busca jQuery', 'label' => 'Descricao Completa (#main-content .secao-comprar)','required' => true]);
             echo $this->Form->control('QueryImagem', ['title' => 'Busca jQuery', 'label' => 'Query Imagem','required' => true]);
             echo $this->Form->control('price', ['type' => 'number', 'label' => 'Preço produto para vender', 'default' => '5.00','required' => true, 'step' => '0.01']);

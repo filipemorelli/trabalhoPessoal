@@ -50,11 +50,10 @@ class SitesController extends AppController
         {
             $url                    = $this->request->data['Url'];
             $queryTitulo            = $this->request->data['QueryTitulo'];
-            $queryDescricaoRapida   = $this->request->data['QueryDescricaoRapida'];
             $queryDescricaoCompleta = $this->request->data['QueryDescricaoCompleta'];
             $queryImagem            = $this->request->data['QueryImagem'];
 
-            $contents = $this->siteDescricaoMercadoLivre($url, $queryTitulo, $queryDescricaoRapida, $queryDescricaoCompleta, $queryImagem);
+            $contents = $this->siteDescricaoMercadoLivre($url, $queryTitulo, $queryDescricaoCompleta, $queryImagem);
 
             $titulo            = $contents['titulo'];
             $descricaoRapida   = $contents['descricaoRapida'];
@@ -108,11 +107,11 @@ class SitesController extends AppController
      *
      * @return array ['titulo', 'descricaoRapida', 'descricaoCompleta']
      */
-    private function siteDescricaoMercadoLivre($url, $queryTitulo = null, $queryDescricaoRapida = null, $queryDescricaoCompleta = null, $queryImagem = null)
+    private function siteDescricaoMercadoLivre($url, $queryTitulo = null, $queryDescricaoCompleta = null, $queryImagem = null)
     {
         //$url = 'http://bhtecnologia.com/projeto-freejobs/';
         //$queryRule = 'body #vantagens';
-        $contents = $this->phpQuery->getMercadoLivreContent($url, $queryTitulo, $queryDescricaoRapida, $queryDescricaoCompleta, $queryImagem);
+        $contents = $this->phpQuery->getMercadoLivreContent($url, $queryTitulo, $queryDescricaoCompleta, $queryImagem);
         return $contents;
     }
 

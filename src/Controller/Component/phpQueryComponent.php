@@ -53,7 +53,7 @@ class phpQueryComponent extends Component
         return false;
     }
 
-    public function getMercadoLivreContent($url = null, $queryTitulo = null, $queryDescricaoRapida = null, $queryDescricaoCompleta = null, $queryImagem = null)
+    public function getMercadoLivreContent($url = null, $queryTitulo = null, $queryDescricaoCompleta = null, $queryImagem = null)
     {
         if (!is_null($url))
         {
@@ -62,14 +62,13 @@ class phpQueryComponent extends Component
             $doc = phpQuery::newDocumentFile($url);
 
             //traduzir
-            $titulo                   = $this->cleanHtmlMercadoLivreContent($doc[$queryTitulo]);
-            $descricaoRapida          = $this->cleanHtmlMercadoLivreContent($doc[$queryDescricaoRapida]);
-            $descricaoRapidaTruncate  = Text::truncate($descricaoRapida->text(), 300, ['ellipsis' => '...', 'exact' => false]);
-            $descricaoRapidaTraduzida = $this->Tradutor->begin(trim($descricaoRapidaTruncate));
+            $titulo          = $this->cleanHtmlMercadoLivreContent($doc[$queryTitulo]);
 
             $descricaoCompleta          = $this->cleanHtmlMercadoLivreContent($doc[$queryDescricaoCompleta]);
             $decricaoCompletaMinificada = $this->Minify->start(trim($descricaoCompleta->html()));
             $descricaoCompletaTraduzida = $this->Tradutor->begin($decricaoCompletaMinificada);
+
+            $descricaoRapidaTraduzida  = Text::truncate(trim($descricaoCompletaTraduzida->text()), 300, ['ellipsis' => '...', 'exact' => false]);
             return array(
                 'titulo'            => trim(pq($titulo)->text()),
                 'descricaoRapida'   => $descricaoRapidaTraduzida,
