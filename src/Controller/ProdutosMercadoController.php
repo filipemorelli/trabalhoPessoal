@@ -122,7 +122,11 @@ class ProdutosMercadoController extends AppController
 
     public function export()
     {
-        $query           = $this->ProdutosMercado->find('all', []);
+        $query           = $this->ProdutosMercado->find('all', [
+            'conditions' => [
+                'ativo' => 1
+            ]
+        ]);
         $produtos        = $query->all();
         $view            = new View();
         $path            = TMP . 'export-mercadolive-' . date('Y-m-d_H-i-s') . '.xml';
