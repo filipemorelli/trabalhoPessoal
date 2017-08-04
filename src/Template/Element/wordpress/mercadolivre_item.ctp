@@ -19,7 +19,7 @@
     <wp:post_type>product</wp:post_type>
     <wp:post_password></wp:post_password>
     <wp:is_sticky>0</wp:is_sticky>
-    <category domain="product_type" nicename="simple"><![CDATA[simple]]></category>
+    <category domain="product_type" nicename="simple"><![CDATA[simple]]></category>{{tag}}
     <wp:postmeta>
         <wp:meta_key>_edit_last</wp:meta_key>
         <wp:meta_value><![CDATA[1]]></wp:meta_value>

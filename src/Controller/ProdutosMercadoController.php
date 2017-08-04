@@ -151,6 +151,12 @@ class ProdutosMercadoController extends AppController
             $content = str_replace('{{urlImagem}}', $produto->urlImagem, $content);
             $content = str_replace('{{categoria_id}}', $produto->ml_category, $content);
             $content = str_replace('{{slug}}', strtolower(Inflector::slug($produto->title, '-')), $content);
+            if ($produto->tag)
+            {
+                $tags    = explode('|', $produto->tag);
+                $content = $this->generateTagExport($content, $tags);
+            }
+            $content = str_replace('{{tag}}', '', $content);
             $file->append($content);
         }
         $footerWordpress = $view->element('wordpress/mercadolivre_footer');
@@ -165,6 +171,17 @@ class ProdutosMercadoController extends AppController
         $file->delete();
         exit();
         // $file->delete();
+    }
+
+    private function generateTagExport($content, $tags)
+    {
+
+        foreach ($tags as $tagContent)
+        {
+            $tag     = '<category domain="product_tag" nicename="' . $tagContent . '"><![CDATA[' . $tagContent . ']]></category>{{tag}}';
+            $content = str_replace('{{tag}}', $tag, $content);
+        }
+        return $content;
     }
 
 }
