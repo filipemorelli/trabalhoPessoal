@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Controller\AppController;
 use Cake\ORM\TableRegistry;
+use Cake\Filesystem\File;
 
 /**
  * Sites Controller
@@ -142,6 +143,63 @@ class SitesController extends AppController
         $url = 'http://localhost/teste-crawl/';
         $this->phpCrawl->copySite($url, null, 'Localhost');
         exit();
+    }
+
+    /**
+     * Importa produto por csv
+     * @return array|json
+     */
+    public function importProducts()
+    {
+        $this->set("title", "Mercado Livre - Importar Produtos");
+        if ($this->request->is(["post", "put"]))
+        {
+            $upload     = $this->request->data['upload'];
+            $separation = $this->request->data['separation'];
+
+            $file           = new File($upload['tmp_name']);
+            $file->open('r');
+            $content        = $file->read();
+            $linhas         = explode(PHP_EOL, $content);
+            $linhaPrincipal = array_shift($linhas);
+            if (end($linhas) == '')
+            {
+                array_pop($linhas);
+            }
+            $celulasPrincipais = explode($separation, $linhaPrincipal);
+            for ($i = 0; $i < count($linhas); $i++)
+            {
+                $result = $this->readLines($celulasPrincipais, $separation, $linhas[$i]);
+                if (!$result)
+                {
+                    echo 'Problema na linha ' . $i;
+                    $this->Flash->error(__("Problema na linha $i. " . date('Y-m-d H:i:s')));
+                    break;
+                }
+            }
+            $this->Flash->success(__('The produtos mercado has been saved. ' . date('Y-m-d H:i:s')));
+        }
+    }
+
+    private function readLines($celulasPrincipais, $separation, $linha)
+    {
+        $produtosMercadoLivreTable = TableRegistry::get('ProdutosMercado');
+        $produto                   = $produtosMercadoLivreTable->newEntity();
+        $celulas                   = explode($separation, $linha);
+        for ($j = 0; $j < count($celulas); $j++)
+        {
+            $produto->{$celulasPrincipais[$j]} = $celulas[$j];
+        }
+        $contents           = $this->siteDescricaoMercadoLivre($produto->link, $produto->queryTitulo, $produto->queryDescricaoCompleta, $produto->queryImagem);
+        $titulo             = $contents['titulo'];
+        $descricaoRapida    = $contents['descricaoRapida'];
+        $descricaoCompleta  = $contents['descricaoCompleta'];
+        $urlImagem          = $contents['urlImagem'];
+        $produto->title     = $titulo;
+        $produto->content   = $descricaoCompleta;
+        $produto->excerpt   = $descricaoRapida;
+        $produto->urlImagem = $urlImagem;
+        return $produtosMercadoLivreTable->save($produto);
     }
 
 }

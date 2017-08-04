@@ -58,7 +58,7 @@ class phpQueryComponent extends Component
         if (!is_null($url))
         {
             //$url = 'http://www.phonearena.com/phones/manufacturer/';
-            include dirname(__FILE__) . '/phpQuery/phpQuery.php';
+            include_once dirname(__FILE__) . '/phpQuery/phpQuery.php';
             $doc = phpQuery::newDocumentFile($url);
 
             //traduzir
@@ -97,5 +97,5 @@ class phpQueryComponent extends Component
         $htmlQuery->find('script')->remove();
         return $htmlQuery;
     }
-
+    
 }

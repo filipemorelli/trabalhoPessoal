@@ -6,6 +6,7 @@ use App\Controller\AppController;
 use Cake\View\View;
 use Cake\I18n\Time;
 use Cake\Filesystem\File;
+use Cake\Utility\Inflector;
 
 /**
  * ProdutosMercado Controller
@@ -149,7 +150,7 @@ class ProdutosMercadoController extends AppController
             $content = str_replace('{{price}}', $produto->price, $content);
             $content = str_replace('{{urlImagem}}', $produto->urlImagem, $content);
             $content = str_replace('{{categoria_id}}', $produto->ml_category, $content);
-            $content = str_replace('{{slug}}', strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $produto->title))), $content);
+            $content = str_replace('{{slug}}', strtolower(Inflector::slug($produto->title, '-')), $content);
             $file->append($content);
         }
         $footerWordpress = $view->element('wordpress/mercadolivre_footer');

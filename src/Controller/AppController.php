@@ -48,6 +48,7 @@ class AppController extends Controller
         $this->loadComponent('Minify');
         $this->loadComponent('phpQuery');
         $this->loadComponent('Flash');
+        $this->loadComponent('UploadFile');
         $this->loadComponent('Auth', [
             'loginRedirect' => [
                 'controller' => 'Users',
