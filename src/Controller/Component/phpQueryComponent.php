@@ -68,7 +68,7 @@ class phpQueryComponent extends Component
             $decricaoCompletaMinificada = $this->Minify->start(trim($descricaoCompleta->html()));
             $descricaoCompletaTraduzida = $this->Tradutor->begin($decricaoCompletaMinificada);
 
-            $descricaoRapidaTraduzida  = Text::truncate(trim($descricaoCompletaTraduzida->text()), 300, ['ellipsis' => '...', 'exact' => false]);
+            $descricaoRapidaTraduzida  = Text::truncate(pq($descricaoCompletaTraduzida)->text(), 300, ['ellipsis' => '...', 'exact' => false]);
             return array(
                 'titulo'            => trim(pq($titulo)->text()),
                 'descricaoRapida'   => $descricaoRapidaTraduzida,
