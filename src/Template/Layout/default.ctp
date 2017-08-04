@@ -45,6 +45,7 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
                 <li><?= $this->Html->link('Mercado Livre', ['controller' => 'sites', 'action' => 'mercadoLivre'], ['target' => '_blank']) ?></li>
                 <li><?= $this->Html->link('Lista Mercado Livre', ['controller' => 'ProdutosMercado', 'action' => 'index']) ?></li>
                 <li><?= $this->Html->link('Exportar Mercado Livre', ['controller' => 'ProdutosMercado', 'action' => 'export']) ?></li>
+                <li><?= $this->Html->link('Importar Mercado Livre', ['controller' => 'sites', 'action' => 'importProducts']) ?></li>
                 <li><a target="_blank" href="https://book.cakephp.org/3.0/">Documentation</a></li>
                 <li><a target="_blank" href="https://api.cakephp.org/3.0/">API</a></li>
                 <li><?= $this->Html->link('Sair', ['controller' => 'users', 'action' => 'logout']) ?></li>
