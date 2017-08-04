@@ -183,12 +183,13 @@ class SitesController extends AppController
 
     private function readLines($celulasPrincipais, $separation, $linha)
     {
+        echo '<pre>';
         $produtosMercadoLivreTable = TableRegistry::get('ProdutosMercado');
         $produto                   = $produtosMercadoLivreTable->newEntity();
         $celulas                   = explode($separation, $linha);
         for ($j = 0; $j < count($celulas); $j++)
         {
-            $produto->{$celulasPrincipais[$j]} = $celulas[$j];
+            $produto->{trim($celulasPrincipais[$j])} = trim($celulas[$j]);
         }
         $contents           = $this->siteDescricaoMercadoLivre($produto->link, $produto->queryTitulo, $produto->queryDescricaoCompleta, $produto->queryImagem);
         $titulo             = $contents['titulo'];
