@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Controller\AppController;
 use Cake\ORM\TableRegistry;
 use Cake\Filesystem\File;
+use Cake\ORM\Entity;
 
 /**
  * Sites Controller
@@ -183,8 +184,7 @@ class SitesController extends AppController
 
     private function readLines($celulasPrincipais, $separation, $linha)
     {
-        $produtosMercadoLivreTable = TableRegistry::get('ProdutosMercado');
-        $produto                   = $produtosMercadoLivreTable->newEntity();
+        $produto                   = new Entity();
         $celulas                   = explode($separation, $linha);
         for ($j = 0; $j < count($celulas); $j++)
         {
@@ -199,6 +199,7 @@ class SitesController extends AppController
         $produto->content   = $descricaoCompleta;
         $produto->excerpt   = $descricaoRapida;
         $produto->urlImagem = $urlImagem;
+        $produtosMercadoLivreTable = TableRegistry::get('ProdutosMercado');
         return $produtosMercadoLivreTable->save($produto);
     }
 
