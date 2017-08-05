@@ -53,8 +53,9 @@ class SitesController extends AppController
             $queryTitulo            = $this->request->data['QueryTitulo'];
             $queryDescricaoCompleta = $this->request->data['QueryDescricaoCompleta'];
             $queryImagem            = $this->request->data['QueryImagem'];
+            $lang                   = $this->request->data['lang'];
 
-            $contents = $this->siteDescricaoMercadoLivre($url, $queryTitulo, $queryDescricaoCompleta, $queryImagem);
+            $contents = $this->siteDescricaoMercadoLivre($url, $queryTitulo, $queryDescricaoCompleta, $queryImagem, $lang);
 
             $titulo            = $contents['titulo'];
             $descricaoRapida   = $contents['descricaoRapida'];
@@ -108,11 +109,22 @@ class SitesController extends AppController
      *
      * @return array ['titulo', 'descricaoRapida', 'descricaoCompleta']
      */
-    private function siteDescricaoMercadoLivre($url, $queryTitulo = null, $queryDescricaoCompleta = null, $queryImagem = null)
+    private function siteDescricaoMercadoLivre($url, $queryTitulo = null, $queryDescricaoCompleta = null, $queryImagem = null, $lang = 'eng')
     {
         //$url = 'http://bhtecnologia.com/projeto-freejobs/';
         //$queryRule = 'body #vantagens';
-        $contents = $this->phpQuery->getMercadoLivreContent($url, $queryTitulo, $queryDescricaoCompleta, $queryImagem);
+        switch ($lang)
+        {
+            case 'pt':
+                $contents = $this->phpQuery->getMercadoLivreContentPt($url, $queryTitulo, $queryDescricaoCompleta, $queryImagem);
+                break;
+            case 'eng':
+                $contents = $this->phpQuery->getMercadoLivreContentEng($url, $queryTitulo, $queryDescricaoCompleta, $queryImagem);
+                break;
+            default:
+                break;
+        }
+
         return $contents;
     }
 
@@ -191,7 +203,7 @@ class SitesController extends AppController
         {
             $produto->{trim($celulasPrincipais[$j])} = trim($celulas[$j]);
         }
-        $contents           = $this->siteDescricaoMercadoLivre($produto->link, $produto->queryTitulo, $produto->queryDescricaoCompleta, $produto->queryImagem);
+        $contents           = $this->siteDescricaoMercadoLivre($produto->link, $produto->queryTitulo, $produto->queryDescricaoCompleta, $produto->queryImagem, $produto->lang);
         $titulo             = $contents['titulo'];
         $descricaoRapida    = $contents['descricaoRapida'];
         $descricaoCompleta  = $contents['descricaoCompleta'];

@@ -53,7 +53,7 @@ class phpQueryComponent extends Component
         return false;
     }
 
-    public function getMercadoLivreContent($url = null, $queryTitulo = null, $queryDescricaoCompleta = null, $queryImagem = null)
+    public function getMercadoLivreContentEng($url = null, $queryTitulo = null, $queryDescricaoCompleta = null, $queryImagem = null)
     {
         if (!is_null($url))
         {
@@ -62,17 +62,41 @@ class phpQueryComponent extends Component
             $doc = phpQuery::newDocumentFile($url);
 
             //traduzir
-            $titulo          = $this->cleanHtmlMercadoLivreContent($doc[$queryTitulo]);
+            $titulo = $this->cleanHtmlMercadoLivreContent($doc[$queryTitulo]);
 
             $descricaoCompleta          = $this->cleanHtmlMercadoLivreContent($doc[$queryDescricaoCompleta]);
             $decricaoCompletaMinificada = $this->Minify->start(trim($descricaoCompleta->html()));
             $descricaoCompletaTraduzida = $this->Tradutor->begin($decricaoCompletaMinificada);
 
-            $descricaoRapidaTraduzida  = Text::truncate(pq($descricaoCompletaTraduzida)->text(), 300, ['ellipsis' => '...', 'exact' => false]);
+            $descricaoRapidaTraduzida = Text::truncate(pq($descricaoCompletaTraduzida)->text(), 300, ['ellipsis' => '...', 'exact' => false]);
             return array(
                 'titulo'            => trim(pq($titulo)->text()),
                 'descricaoRapida'   => $descricaoRapidaTraduzida,
                 'descricaoCompleta' => $this->Minify->start($descricaoCompletaTraduzida),
+                'urlImagem'         => $doc[$queryImagem]->attr('src')
+            );
+        }
+        //throw new NotFoundException(__('Imposivel Sem URL')); 
+        return false;
+    }
+
+    public function getMercadoLivreContentPt($url = null, $queryTitulo = null, $queryDescricaoCompleta = null, $queryImagem = null)
+    {
+        if (!is_null($url))
+        {
+            //$url = 'http://www.phonearena.com/phones/manufacturer/';
+            include_once dirname(__FILE__) . '/phpQuery/phpQuery.php';
+            $doc = phpQuery::newDocumentFile($url);
+
+            //traduzir
+            $titulo = $this->cleanHtmlMercadoLivreContent($doc[$queryTitulo]);
+
+            $descricaoCompleta          = $this->cleanHtmlMercadoLivreContent($doc[$queryDescricaoCompleta]);
+            $descricaoRapidaTraduzida = Text::truncate(pq($descricaoCompleta)->text(), 300, ['ellipsis' => '...', 'exact' => false]);
+            return array(
+                'titulo'            => trim(pq($titulo)->text()),
+                'descricaoRapida'   => $descricaoRapidaTraduzida,
+                'descricaoCompleta' => $this->Minify->start($descricaoCompleta),
                 'urlImagem'         => $doc[$queryImagem]->attr('src')
             );
         }
@@ -97,5 +121,5 @@ class phpQueryComponent extends Component
         $htmlQuery->find('script')->remove();
         return $htmlQuery;
     }
-    
+
 }
