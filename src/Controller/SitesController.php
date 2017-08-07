@@ -211,10 +211,19 @@ class SitesController extends AppController
         if (!$produto->title)
         {
             $produto->title = $titulo;
+            if ($produto->addTitle)
+            {
+                $produto->title = $produto->addTitle . ' ' . $titulo;
+            }
+            if ($this->endTitle)
+            {
+                $produto->title = $titulo . ' ' . $produto->endTitle;
+            }
         }
         $produto->content   = $descricaoCompleta;
         $produto->excerpt   = $descricaoRapida;
         $produto->urlImagem = $urlImagem;
+        echo '<pre>';
         return $produtosMercadoLivreTable->save($produto);
     }
 
