@@ -4,6 +4,7 @@ namespace App\Controller\Component;
 
 use Cake\Controller\Component;
 use Cake\Http\Client;
+use Cake\Utility\Text;
 
 class TradutorComponent extends Component
 {
@@ -13,10 +14,11 @@ class TradutorComponent extends Component
 
     public function begin($message, $format = 'html', $lang = 'en-pt')
     {
+        $trueMessagem = Text::truncate($message, 30000, false);
         $c             = new Client();
         $textTranslate = $c->post($this->url, [
             'key'    => $this->key,
-            'text'   => $message,
+            'text'   => $trueMessagem,
             'format' => $format,
             'lang'   => $lang
         ]);

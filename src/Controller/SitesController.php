@@ -109,17 +109,17 @@ class SitesController extends AppController
      *
      * @return array ['titulo', 'descricaoRapida', 'descricaoCompleta']
      */
-    private function siteDescricaoMercadoLivre($url, $queryTitulo = null, $queryDescricaoCompleta = null, $queryImagem = null, $lang = 'eng')
+    private function siteDescricaoMercadoLivre($url, $queryTitulo = null, $queryDescricaoCompleta = null, $queryImagem = null, $lang = 'eng', $contentImage = false)
     {
         //$url = 'http://bhtecnologia.com/projeto-freejobs/';
         //$queryRule = 'body #vantagens';
         switch ($lang)
         {
             case 'pt':
-                $contents = $this->phpQuery->getMercadoLivreContentPt($url, $queryTitulo, $queryDescricaoCompleta, $queryImagem);
+                $contents = $this->phpQuery->getMercadoLivreContentPt($url, $queryTitulo, $queryDescricaoCompleta, $queryImagem, $contentImage);
                 break;
             case 'eng':
-                $contents = $this->phpQuery->getMercadoLivreContentEng($url, $queryTitulo, $queryDescricaoCompleta, $queryImagem);
+                $contents = $this->phpQuery->getMercadoLivreContentEng($url, $queryTitulo, $queryDescricaoCompleta, $queryImagem, $contentImage);
                 break;
             default:
                 break;
@@ -203,7 +203,15 @@ class SitesController extends AppController
         {
             $produto->{trim($celulasPrincipais[$j])} = trim($celulas[$j]);
         }
-        $contents          = $this->siteDescricaoMercadoLivre($produto->link, $produto->queryTitulo, $produto->queryDescricaoCompleta, $produto->queryImagem, $produto->lang);
+        if ($produto->contentImage == 1)
+        {
+            $produto->contentImage = true;
+        }
+        else
+        {
+            $produto->contentImage = false;
+        }
+        $contents          = $this->siteDescricaoMercadoLivre($produto->link, $produto->queryTitulo, $produto->queryDescricaoCompleta, $produto->queryImagem, $produto->lang, $produto->contentImage);
         $titulo            = $contents['titulo'];
         $descricaoRapida   = $contents['descricaoRapida'];
         $descricaoCompleta = $contents['descricaoCompleta'];
@@ -223,7 +231,6 @@ class SitesController extends AppController
         $produto->content   = $descricaoCompleta;
         $produto->excerpt   = $descricaoRapida;
         $produto->urlImagem = $urlImagem;
-        echo '<pre>';
         return $produtosMercadoLivreTable->save($produto);
     }
 

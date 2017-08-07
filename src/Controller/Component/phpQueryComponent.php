@@ -53,7 +53,7 @@ class phpQueryComponent extends Component
         return false;
     }
 
-    public function getMercadoLivreContentEng($url = null, $queryTitulo = null, $queryDescricaoCompleta = null, $queryImagem = null)
+    public function getMercadoLivreContentEng($url = null, $queryTitulo = null, $queryDescricaoCompleta = null, $queryImagem = null, $contentImage = false)
     {
         if (!is_null($url))
         {
@@ -63,8 +63,15 @@ class phpQueryComponent extends Component
 
             //traduzir
             $titulo = $this->cleanHtmlMercadoLivreContent($doc[$queryTitulo]);
-
-            $descricaoCompleta          = $this->cleanHtmlMercadoLivreContent($doc[$queryDescricaoCompleta]);
+            
+            if ($contentImage)
+            {
+                $descricaoCompleta = $this->cleanHtmlMercadoLivreContentWithImage($doc[$queryDescricaoCompleta]);
+            }
+            else
+            {
+                $descricaoCompleta = $this->cleanHtmlMercadoLivreContent($doc[$queryDescricaoCompleta]);
+            }
             $decricaoCompletaMinificada = $this->Minify->start(trim($descricaoCompleta->html()));
             $descricaoCompletaTraduzida = $this->Tradutor->begin($decricaoCompletaMinificada);
 
@@ -80,7 +87,7 @@ class phpQueryComponent extends Component
         return false;
     }
 
-    public function getMercadoLivreContentPt($url = null, $queryTitulo = null, $queryDescricaoCompleta = null, $queryImagem = null)
+    public function getMercadoLivreContentPt($url = null, $queryTitulo = null, $queryDescricaoCompleta = null, $queryImagem = null, $contentImage = false)
     {
         if (!is_null($url))
         {
@@ -91,7 +98,14 @@ class phpQueryComponent extends Component
             //traduzir
             $titulo = $this->cleanHtmlMercadoLivreContent($doc[$queryTitulo]);
 
-            $descricaoCompleta          = $this->cleanHtmlMercadoLivreContent($doc[$queryDescricaoCompleta]);
+            if ($contentImage)
+            {
+                $descricaoCompleta = $this->cleanHtmlMercadoLivreContentWithImage($doc[$queryDescricaoCompleta]);
+            }
+            else
+            {
+                $descricaoCompleta = $this->cleanHtmlMercadoLivreContent($doc[$queryDescricaoCompleta]);
+            }
             $descricaoRapidaTraduzida = Text::truncate(pq($descricaoCompleta)->text(), 300, ['ellipsis' => '...', 'exact' => false]);
             return array(
                 'titulo'            => trim(pq($titulo)->text()),
@@ -115,6 +129,15 @@ class phpQueryComponent extends Component
     private function cleanHtmlMercadoLivreContent($htmlQuery)
     {
         $htmlQuery->find('img')->remove();
+        $htmlQuery->find('a:empty')->remove();
+        $htmlQuery->find('a')->removeAttr('href')->removeAttr('rel');
+        $htmlQuery->find('br')->remove();
+        $htmlQuery->find('script')->remove();
+        return $htmlQuery;
+    }
+
+    private function cleanHtmlMercadoLivreContentWithImage($htmlQuery)
+    {
         $htmlQuery->find('a:empty')->remove();
         $htmlQuery->find('a')->removeAttr('href')->removeAttr('rel');
         $htmlQuery->find('br')->remove();
