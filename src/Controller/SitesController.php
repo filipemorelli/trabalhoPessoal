@@ -203,12 +203,15 @@ class SitesController extends AppController
         {
             $produto->{trim($celulasPrincipais[$j])} = trim($celulas[$j]);
         }
-        $contents           = $this->siteDescricaoMercadoLivre($produto->link, $produto->queryTitulo, $produto->queryDescricaoCompleta, $produto->queryImagem, $produto->lang);
-        $titulo             = $contents['titulo'];
-        $descricaoRapida    = $contents['descricaoRapida'];
-        $descricaoCompleta  = $contents['descricaoCompleta'];
-        $urlImagem          = $contents['urlImagem'];
-        $produto->title     = $titulo;
+        $contents          = $this->siteDescricaoMercadoLivre($produto->link, $produto->queryTitulo, $produto->queryDescricaoCompleta, $produto->queryImagem, $produto->lang);
+        $titulo            = $contents['titulo'];
+        $descricaoRapida   = $contents['descricaoRapida'];
+        $descricaoCompleta = $contents['descricaoCompleta'];
+        $urlImagem         = $contents['urlImagem'];
+        if (!$produto->title)
+        {
+            $produto->title = $titulo;
+        }
         $produto->content   = $descricaoCompleta;
         $produto->excerpt   = $descricaoRapida;
         $produto->urlImagem = $urlImagem;
