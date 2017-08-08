@@ -195,7 +195,6 @@ class SitesController extends AppController
 
     private function readLines($celulasPrincipais, $separation, $linha)
     {
-        echo '<pre>';
         $produtosMercadoLivreTable = TableRegistry::get('ProdutosMercado');
         $produto                   = $produtosMercadoLivreTable->newEntity();
         $celulas                   = explode($separation, $linha);

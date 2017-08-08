@@ -14,7 +14,7 @@ class TradutorComponent extends Component
 
     public function begin($message, $format = 'html', $lang = 'en-pt')
     {
-        $trueMessagem = Text::truncate($message, 30000, false);
+        $trueMessagem = Text::truncate($message, 30000, ['ellipsis' => '...', 'exact' => false]);
         $c             = new Client();
         $textTranslate = $c->post($this->url, [
             'key'    => $this->key,
