@@ -142,7 +142,7 @@ class ProdutosMercadoController extends AppController
             $time    = new Time($produto->pubDate);
             $content = $view->element('wordpress/mercadolivre_item');
             $content = str_replace('{{id}}', $produto->id, $content);
-            $content = str_replace('{{title}}', $produto->title, $content);
+            $content = str_replace('{{title}}', htmlspecialchars($produto->title), $content);
             $content = str_replace('{{pubDate}}', $time->format('D, d M Y H:i:s'), $content);
             $content = str_replace('{{post_date}}', $time->format('Y-m-d H:i:s'), $content);
             $content = str_replace('{{content}}', $produto->content, $content);
