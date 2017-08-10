@@ -42,6 +42,7 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
         </ul>
         <div class="top-bar-section">
             <ul class="right">
+                <li><?= $this->Html->link('Pesquisar Produto', ['controller' => 'ProdutosMercado', 'action' => 'pesquisar']) ?></li>
                 <li><?= $this->Html->link('Mercado Livre', ['controller' => 'sites', 'action' => 'mercadoLivre'], ['target' => '_blank']) ?></li>
                 <li><?= $this->Html->link('Lista Mercado Livre', ['controller' => 'ProdutosMercado', 'action' => 'index']) ?></li>
                 <li><?= $this->Html->link('Exportar Mercado Livre', ['controller' => 'ProdutosMercado', 'action' => 'export']) ?></li>

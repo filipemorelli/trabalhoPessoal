@@ -184,4 +184,27 @@ class ProdutosMercadoController extends AppController
         return $content;
     }
 
+    public function pesquisar()
+    {
+        $hasSearch       = 0;
+        $produtosMercado = $this->ProdutosMercado->newEntity();
+        if ($this->request->is('post'))
+        {
+            $titulo          = strtoupper($this->request->data['titulo']);
+            //$query = $this->request->query
+            $query           = $this->ProdutosMercado->find('all', [
+                'fields'     => ['id', 'title'],
+                'conditions' => [
+                    'UPPER(title) like' => "%$titulo%"
+                ],
+                'limit'      => 100
+            ]);
+            $produtosMercado = $query->all();
+
+            $this->set('produtosMercado', $produtosMercado);
+            $hasSearch = 1;
+        }
+        $this->set('hasSearch', $hasSearch);
+    }
+
 }
