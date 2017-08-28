@@ -55,6 +55,8 @@ Router::scope('/', function (RouteBuilder $routes) {
     $routes->connect('/copiar-site', ['controller' => 'Sites', 'action' => 'siteCopy']);
     $routes->connect('/mercadolivre', ['controller' => 'Sites', 'action' => 'mercadoLivre']);
     $routes->connect('/importar-produtos', ['controller' => 'Sites', 'action' => 'importProducts']);
+    $routes->connect('/ajax_pesquisar_produtos', ['controller' => 'ProdutosMercado', 'action' => 'ajaxPesquisarProdutos']);
+    $routes->connect('/ajax_busca_produto', ['controller' => 'ProdutosMercado', 'action' => 'ajaxBuscaProduto']);
     /**
      * ...and connect the rest of 'Pages' controller's URLs.
      */

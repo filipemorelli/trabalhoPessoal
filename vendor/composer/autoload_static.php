@@ -46,6 +46,7 @@ class ComposerStaticInit57e1f0d96244a538bbab6bb28bde1f07
             'Psy\\' => 4,
             'Psr\\Log\\' => 8,
             'Psr\\Http\\Message\\' => 17,
+            'Psr\\Container\\' => 14,
             'PhpParser\\' => 10,
             'Phinx\\' => 6,
         ),
@@ -64,7 +65,7 @@ class ComposerStaticInit57e1f0d96244a538bbab6bb28bde1f07
         ),
         'C' => 
         array (
-            'Crawler\\' => 8,
+            'Convertio\\' => 10,
             'Composer\\Spdx\\' => 14,
             'Composer\\Semver\\' => 16,
             'Composer\\CaBundle\\' => 18,
@@ -156,6 +157,10 @@ class ComposerStaticInit57e1f0d96244a538bbab6bb28bde1f07
         array (
             0 => __DIR__ . '/..' . '/psr/http-message/src',
         ),
+        'Psr\\Container\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/container/src',
+        ),
         'PhpParser\\' => 
         array (
             0 => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser',
@@ -180,9 +185,9 @@ class ComposerStaticInit57e1f0d96244a538bbab6bb28bde1f07
         array (
             0 => __DIR__ . '/..' . '/cakephp/debug_kit/src',
         ),
-        'Crawler\\' => 
+        'Convertio\\' => 
         array (
-            0 => __DIR__ . '/..' . '/patarkf/crawler-cakephp/src',
+            0 => __DIR__ . '/..' . '/convertio/convertio-php/src',
         ),
         'Composer\\Spdx\\' => 
         array (
@@ -239,6 +244,13 @@ class ComposerStaticInit57e1f0d96244a538bbab6bb28bde1f07
     );
 
     public static $prefixesPsr0 = array (
+        'P' => 
+        array (
+            'Pimple' => 
+            array (
+                0 => __DIR__ . '/..' . '/pimple/pimple/src',
+            ),
+        ),
         'J' => 
         array (
             'JakubOnderka\\PhpConsoleHighlighter' => 

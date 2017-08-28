@@ -253,6 +253,13 @@ class PHP extends Tokenizer
                                                 'shared' => false,
                                                 'with'   => array(),
                                                ),
+                            T_START_NOWDOC  => array(
+                                                'start'  => array(T_START_NOWDOC => T_START_NOWDOC),
+                                                'end'    => array(T_END_NOWDOC => T_END_NOWDOC),
+                                                'strict' => true,
+                                                'shared' => false,
+                                                'with'   => array(),
+                                               ),
                            );
 
     /**
@@ -475,7 +482,7 @@ class PHP extends Tokenizer
 
             if (PHP_CODESNIFFER_VERBOSITY > 1) {
                 if ($tokenIsArray === true) {
-                    $type    = token_name($token[0]);
+                    $type    = Util\Tokens::tokenName($token[0]);
                     $content = Util\Common::prepareForOutput($token[1]);
                 } else {
                     $newToken = self::resolveSimpleToken($token[0]);
@@ -927,7 +934,9 @@ class PHP extends Tokenizer
                 so go forward and change the token type before it is processed.
             */
 
-            if ($tokenIsArray === true && $token[0] === T_FUNCTION) {
+            if ($tokenIsArray === true && $token[0] === T_FUNCTION
+                && $finalTokens[$lastNotEmptyToken]['code'] !== T_USE
+            ) {
                 for ($x = ($stackPtr + 1); $x < $numTokens; $x++) {
                     if (is_array($tokens[$x]) === false
                         || isset(Util\Tokens::$emptyTokens[$tokens[$x][0]]) === false
@@ -1345,11 +1354,23 @@ class PHP extends Tokenizer
 
                             $this->tokens[$x]['code'] = T_RETURN_TYPE;
                             $this->tokens[$x]['type'] = 'T_RETURN_TYPE';
-                        }
+
+                            if (array_key_exists('parenthesis_opener', $this->tokens[$x]) === true) {
+                                unset($this->tokens[$x]['parenthesis_opener']);
+                            }
+
+                            if (array_key_exists('parenthesis_closer', $this->tokens[$x]) === true) {
+                                unset($this->tokens[$x]['parenthesis_closer']);
+                            }
+
+                            if (array_key_exists('parenthesis_owner', $this->tokens[$x]) === true) {
+                                unset($this->tokens[$x]['parenthesis_owner']);
+                            }
+                        }//end if
 
                         break;
-                    }
-                }
+                    }//end if
+                }//end for
 
                 continue;
             } else if ($this->tokens[$i]['code'] === T_CLASS && isset($this->tokens[$i]['scope_opener']) === true) {
@@ -1571,18 +1592,6 @@ class PHP extends Tokenizer
                 $this->tokens[$index]['scope_closer']    = $newCloser;
             }
 
-            unset($this->tokens[$scopeOpener]['scope_condition']);
-            unset($this->tokens[$scopeOpener]['scope_opener']);
-            unset($this->tokens[$scopeOpener]['scope_closer']);
-            unset($this->tokens[$scopeCloser]['scope_condition']);
-            unset($this->tokens[$scopeCloser]['scope_opener']);
-            unset($this->tokens[$scopeCloser]['scope_closer']);
-            unset($this->tokens[$x]['bracket_opener']);
-            unset($this->tokens[$x]['bracket_closer']);
-            unset($this->tokens[$newCloser]['bracket_opener']);
-            unset($this->tokens[$newCloser]['bracket_closer']);
-            $this->tokens[$scopeCloser]['conditions'][] = $i;
-
             if (PHP_CODESNIFFER_VERBOSITY > 1) {
                 $line      = $this->tokens[$i]['line'];
                 $tokenType = $this->tokens[$i]['type'];
@@ -1596,6 +1605,45 @@ class PHP extends Tokenizer
                 echo "\t* token $i ($tokenType) on line $line closer changed from $scopeCloser ($oldType) to $newCloser ($newType)".PHP_EOL;
             }
 
+            if ($this->tokens[$scopeOpener]['scope_condition'] === $i) {
+                unset($this->tokens[$scopeOpener]['scope_condition']);
+                unset($this->tokens[$scopeOpener]['scope_opener']);
+                unset($this->tokens[$scopeOpener]['scope_closer']);
+            }
+
+            if ($this->tokens[$scopeCloser]['scope_condition'] === $i) {
+                unset($this->tokens[$scopeCloser]['scope_condition']);
+                unset($this->tokens[$scopeCloser]['scope_opener']);
+                unset($this->tokens[$scopeCloser]['scope_closer']);
+            } else {
+                // We were using a shared closer. All tokens that were
+                // sharing this closer with us, except for the scope condition
+                // and it's opener, need to now point to the new closer.
+                $condition = $this->tokens[$scopeCloser]['scope_condition'];
+                $start     = ($this->tokens[$condition]['scope_opener'] + 1);
+                for ($y = $start; $y < $scopeCloser; $y++) {
+                    if (isset($this->tokens[$y]['scope_closer']) === true
+                        && $this->tokens[$y]['scope_closer'] === $scopeCloser
+                    ) {
+                        $this->tokens[$y]['scope_closer'] = $newCloser;
+
+                        if (PHP_CODESNIFFER_VERBOSITY > 1) {
+                            $line      = $this->tokens[$y]['line'];
+                            $tokenType = $this->tokens[$y]['type'];
+                            $oldType   = $this->tokens[$scopeCloser]['type'];
+                            $newType   = $this->tokens[$newCloser]['type'];
+                            echo "\t\t* token $y ($tokenType) on line $line closer changed from $scopeCloser ($oldType) to $newCloser ($newType)".PHP_EOL;
+                        }
+                    }
+                }
+            }//end if
+
+            unset($this->tokens[$x]['bracket_opener']);
+            unset($this->tokens[$x]['bracket_closer']);
+            unset($this->tokens[$newCloser]['bracket_opener']);
+            unset($this->tokens[$newCloser]['bracket_closer']);
+            $this->tokens[$scopeCloser]['conditions'][] = $i;
+
             // Now fix up all the tokens that think they are
             // inside the CASE/DEFAULT statement when they are really outside.
             for ($x = $newCloser; $x < $scopeCloser; $x++) {
@@ -1608,14 +1656,14 @@ class PHP extends Tokenizer
                             $type     = $this->tokens[$x]['type'];
                             $oldConds = '';
                             foreach ($oldConditions as $condition) {
-                                $oldConds .= token_name($condition).',';
+                                $oldConds .= Util\Tokens::tokenName($condition).',';
                             }
 
                             $oldConds = rtrim($oldConds, ',');
 
                             $newConds = '';
                             foreach ($this->tokens[$x]['conditions'] as $condition) {
-                                $newConds .= token_name($condition).',';
+                                $newConds .= Util\Tokens::tokenName($condition).',';
                             }
 
                             $newConds = rtrim($newConds, ',');

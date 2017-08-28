@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Model\Entity;
 
 use Cake\ORM\Entity;
@@ -30,7 +31,19 @@ class ProdutosMercado extends Entity
      * @var array
      */
     protected $_accessible = [
-        '*' => true,
+        '*'  => true,
         'id' => false
     ];
+    protected $_virtual    = ['hash', 'file'];
+
+    protected function _getHash()
+    {
+        return md5($this->_properties['id'] . $this->_properties['url_download']);
+    }
+
+    protected function _getFile()
+    {
+        return $this->_properties['name_product'] . '.' . $this->_properties['ext'];
+    }
+
 }

@@ -29,6 +29,18 @@
             <td><?= h($produtosMercado->ml_category) ?></td>
         </tr>
         <tr>
+            <th scope="row"><?= __('Tag') ?></th>
+            <td><?= h($produtosMercado->tag) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('Name Product') ?></th>
+            <td><?= h($produtosMercado->name_product) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('Ext') ?></th>
+            <td><?= h($produtosMercado->ext) ?></td>
+        </tr>
+        <tr>
             <th scope="row"><?= __('Id') ?></th>
             <td><?= $this->Number->format($produtosMercado->id) ?></td>
         </tr>
@@ -40,6 +52,10 @@
             <th scope="row"><?= __('PubDate') ?></th>
             <td><?= h($produtosMercado->pubDate) ?></td>
         </tr>
+        <tr>
+            <th scope="row"><?= __('Ativo') ?></th>
+            <td><?= $produtosMercado->ativo ? __('Yes') : __('No'); ?></td>
+        </tr>
     </table>
     <div class="row">
         <h4><?= __('Link') ?></h4>
@@ -50,11 +66,15 @@
         <?= $this->Text->autoParagraph(h($produtosMercado->content)); ?>
     </div>
     <div class="row">
-        <h4><?= __('Link Produto') ?></h4>
-        <?= $this->Text->autoParagraph(h($produtosMercado->link_produto)); ?>
+        <h4><?= __('UrlImagem') ?></h4>
+        <?= $this->Text->autoParagraph(h($produtosMercado->urlImagem)); ?>
     </div>
     <div class="row">
         <h4><?= __('Link Download Produto') ?></h4>
         <?= $this->Text->autoParagraph(h($produtosMercado->link_download_produto)); ?>
+    </div>
+    <div class="row">
+        <h4><?= __('Url Download') ?></h4>
+        <?= $this->Text->autoParagraph(h($produtosMercado->url_download)); ?>
     </div>
 </div>

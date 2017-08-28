@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\Event\Event;
 use Cake\View\View;
 use Cake\I18n\Time;
 use Cake\Filesystem\File;
@@ -17,6 +18,15 @@ use Cake\Utility\Inflector;
  */
 class ProdutosMercadoController extends AppController
 {
+
+    public function beforeFilter(Event $event)
+    {
+        parent::beforeFilter($event);
+        // Permitir aos usuários se registrarem e efetuar logout.
+        // Você não deve adicionar a ação de "login" a lista de permissões.
+        // Isto pode causar problemas com o funcionamento normal do AuthComponent.
+        $this->Auth->allow(['ajaxPesquisarProdutos', 'ajaxBuscaProduto', 'ajaxSendProduct']);
+    }
 
     /**
      * Index method
@@ -205,6 +215,101 @@ class ProdutosMercadoController extends AppController
             $hasSearch = 1;
         }
         $this->set('hasSearch', $hasSearch);
+    }
+
+    public function ajaxPesquisarProdutos()
+    {
+        header("Access-Control-Allow-Origin: *");
+        $this->viewBuilder()->setLayout('ajax');
+        $pesquisa = strtoupper($this->request->query['q']);
+        $query    = $this->ProdutosMercado->find('all', [
+            'fields'     => ['id', 'title'],
+            'conditions' => [
+                'UPPER(title) like' => "%$pesquisa%"
+            ],
+            'limit'      => 100
+        ]);
+        echo json_encode($query->all());
+        exit();
+    }
+
+    public function ajaxBuscaProduto()
+    {
+        header("Access-Control-Allow-Origin: *");
+        header("Cache-Control: max-age=86400");
+        $this->viewBuilder()->setLayout('ajax');
+        $id      = $this->request->query['q'];
+        $produto = $this->ProdutosMercado->get($id, [
+            'fields'  => ['id', 'title', 'link', 'link_download_produto', 'excerpt', 'price', 'ml_category', 'tag', 'name_product', 'url_download'],
+            'virtual' => ['hash']
+        ]);
+        echo json_encode($produto);
+        exit();
+    }
+
+    function ajaxSendProduct()
+    {
+        header("Access-Control-Allow-Origin: *");
+        //$id           = $this->request->query['q'];
+        $id           = 15;
+        $url_download = 'http://localhost/teste_download/LightSource.rar';
+        $hashProduto  = md5($id . $url_download);
+        $produto      = $this->ProdutosMercado->get($id, [
+            'fields'  => ['id', 'url_download', 'name_product', 'ext'],
+            'virtual' => ['hash', 'file']
+        ]);
+        if ($produto->name_product && $produto->url_download)
+        {
+            if ($produto->hash === $hashProduto)
+            {
+                $this->sendEmailToBuyer($produto->url_download, $produto->file, null);
+            }
+            else
+            {
+                echo json_encode([
+                    'status' => false,
+                    'msg'    => 'product hash error'
+                ]);
+            }
+        }
+        else
+        {
+            echo json_encode([
+                'status' => false,
+                'msg'    => "There is not name and/or url_download"
+            ]);
+        }
+        exit();
+    }
+
+    private function sendEmailToBuyer($url, $name, $email)
+    {
+        $link = $this->getDownloadLink($url, $name);
+        echo $link;
+    }
+
+    private function getDownloadLink($url, $name)
+    {
+        if ($this->isFileDownloadExists($name))
+        {
+            return 'Has file';
+        }
+        else
+        {
+            //return 'download file';
+            return $this->DownloadFile->downloadExternalFile($url, $name);
+        }
+    }
+
+    private function isFileDownloadExists($name)
+    {
+        $realName = pathinfo($name);
+        $file = WWW_ROOT . 'upload' . DS . $realName['filename'] . '.zip';
+        if (file_exists($file))
+        {
+            return true;
+        }
+        return false;
     }
 
 }

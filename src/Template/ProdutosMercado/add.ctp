@@ -21,8 +21,13 @@
             echo $this->Form->control('excerpt');
             echo $this->Form->control('price');
             echo $this->Form->control('ml_category');
-            echo $this->Form->control('link_produto');
+            echo $this->Form->control('urlImagem');
             echo $this->Form->control('link_download_produto');
+            echo $this->Form->control('tag');
+            echo $this->Form->control('name_product');
+            echo $this->Form->control('ext');
+            echo $this->Form->control('url_download');
+            echo $this->Form->control('ativo');
         ?>
     </fieldset>
     <?= $this->Form->button(__('Submit')) ?>
