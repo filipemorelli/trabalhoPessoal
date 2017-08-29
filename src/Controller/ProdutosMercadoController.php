@@ -251,8 +251,8 @@ class ProdutosMercadoController extends AppController
     {
         header("Access-Control-Allow-Origin: *");
         //$id           = $this->request->query['q'];
-        $id           = 15;
-        $url_download = 'http://localhost/teste_download/LightSource.rar';
+        $id           = 89;
+        $url_download = 'http://www49.zippyshare.com/d/QslqsJqy/4844/Flashlight_%5bv4.3%5d.rar';
         $hashProduto  = md5($id . $url_download);
         $produto      = $this->ProdutosMercado->get($id, [
             'fields'  => ['id', 'url_download', 'name_product', 'ext'],
@@ -280,57 +280,6 @@ class ProdutosMercadoController extends AppController
             ]);
         }
         exit();
-    }
-
-    /**
-     * Download All templates
-     */
-    function downloadAllProducts()
-    {
-        $query    = $this->ProdutosMercado->find('all', [
-            'fields'     => ['id', 'url_download', 'name_product', 'ext'],
-            'virtual'    => ['hash', 'file'],
-            'conditions' => [
-                'tag'             => 'wordpress|template',
-                'url_download !=' => ''
-            ]
-        ]);
-        $produtos = $query->all();
-        foreach ($produtos as $produto)
-        {
-            $this->DownloadFile->downloadExternalFile($produto->url_download, $produto->file);
-        }
-        exit();
-    }
-
-    private function sendEmailToBuyer($url, $name, $email)
-    {
-        $link = $this->getDownloadLink($url, $name);
-        echo $link;
-    }
-
-    private function getDownloadLink($url, $name)
-    {
-        if ($this->isFileDownloadExists($name))
-        {
-            return 'Has file';
-        }
-        else
-        {
-            //return 'download file';
-            return $this->DownloadFile->downloadExternalFile($url, $name);
-        }
-    }
-
-    private function isFileDownloadExists($name)
-    {
-        $realName = pathinfo($name);
-        $file     = WWW_ROOT . 'upload' . DS . $realName['filename'] . '.zip';
-        if (file_exists($file))
-        {
-            return true;
-        }
-        return false;
     }
 
 }

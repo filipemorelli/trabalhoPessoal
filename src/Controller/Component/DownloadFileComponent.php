@@ -9,7 +9,6 @@
 namespace App\Controller\Component;
 
 use Cake\Controller\Component;
-use Cake\Filesystem\File;
 use Convertio\Convertio;
 use Convertio\Exceptions\APIException;
 use Convertio\Exceptions\CURLException;
