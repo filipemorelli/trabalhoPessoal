@@ -10,7 +10,6 @@ namespace App\Controller\Component;
 
 use Cake\Controller\Component;
 use Cake\Filesystem\File;
-use dariusiii\rarinfo\RarInfo;
 use Convertio\Convertio;
 use Convertio\Exceptions\APIException;
 use Convertio\Exceptions\CURLException;
@@ -71,7 +70,7 @@ class DownloadFileComponent extends Component
      */
     private function sendToUpload($data, $fileName)
     {
-        $filePath = WWW_ROOT . 'upload' . DS . $fileName;
+        $filePath = WWW_ROOT . 'upload' . DS . 'themes' . DS . $fileName;
         $file     = fopen($filePath, "w+");
         fputs($file, $data);
         fclose($file);
@@ -108,7 +107,7 @@ class DownloadFileComponent extends Component
         $this->clearZipProblemsFiles($newFileInfo);
         return $newFileInfo;
     }
-    
+
     /**
      * Delete rar file, usually after parse to zip
      * @param array $fileInfo
@@ -116,7 +115,7 @@ class DownloadFileComponent extends Component
      */
     private function deleteRarFile($fileInfo)
     {
-        if($fileInfo['extension'] == 'rar')
+        if ($fileInfo['extension'] == 'rar')
         {
             $fullPath = $fileInfo['dirname'] . DS . $fileInfo['basename'];
             return unlink($fullPath);

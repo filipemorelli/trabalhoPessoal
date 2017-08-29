@@ -14,7 +14,7 @@
 /tmp/debug_kit.sqlite
 !/tmp/bake/empty
 
-/webroot/upload/theme/*
+/webroot/upload/themes/*
 
 /logs/*
 !/logs/empty

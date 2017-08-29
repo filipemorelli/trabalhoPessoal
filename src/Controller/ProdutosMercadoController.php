@@ -25,7 +25,7 @@ class ProdutosMercadoController extends AppController
         // Permitir aos usuários se registrarem e efetuar logout.
         // Você não deve adicionar a ação de "login" a lista de permissões.
         // Isto pode causar problemas com o funcionamento normal do AuthComponent.
-        $this->Auth->allow(['ajaxPesquisarProdutos', 'ajaxBuscaProduto', 'ajaxSendProduct']);
+        $this->Auth->allow(['ajaxPesquisarProdutos', 'ajaxBuscaProduto', 'ajaxSendProduct', 'downloadAllProducts']);
     }
 
     /**
@@ -282,6 +282,27 @@ class ProdutosMercadoController extends AppController
         exit();
     }
 
+    /**
+     * Download All templates
+     */
+    function downloadAllProducts()
+    {
+        $query    = $this->ProdutosMercado->find('all', [
+            'fields'     => ['id', 'url_download', 'name_product', 'ext'],
+            'virtual'    => ['hash', 'file'],
+            'conditions' => [
+                'tag'             => 'wordpress|template',
+                'url_download !=' => ''
+            ]
+        ]);
+        $produtos = $query->all();
+        foreach ($produtos as $produto)
+        {
+            $this->DownloadFile->downloadExternalFile($produto->url_download, $produto->file);
+        }
+        exit();
+    }
+
     private function sendEmailToBuyer($url, $name, $email)
     {
         $link = $this->getDownloadLink($url, $name);
@@ -304,7 +325,7 @@ class ProdutosMercadoController extends AppController
     private function isFileDownloadExists($name)
     {
         $realName = pathinfo($name);
-        $file = WWW_ROOT . 'upload' . DS . $realName['filename'] . '.zip';
+        $file     = WWW_ROOT . 'upload' . DS . $realName['filename'] . '.zip';
         if (file_exists($file))
         {
             return true;
